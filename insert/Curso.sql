@@ -75,5 +75,5 @@ values (19, 15, 'Google Adwards','Lorem ipsum dolor sit amet, consectetur adipis
 '70 Horas', 510.0, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',4, 'A');
 
 insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao, cur_preco, cur_thumbnail, cur_avaliacao, cur_status)
-values (20, 2, 'Javascript & JQuery','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+values (20, 2, 'Javascript e JQuery','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
 '50 Horas', 220.0, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',3, 'A');

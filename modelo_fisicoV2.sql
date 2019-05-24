@@ -154,7 +154,7 @@ CREATE TABLE curso(
     cur_duracao VARCHAR2(10) NOT NULL,
     cur_preco NUMBER(10,2) NOT NULL,
     cur_thumbnail VARCHAR2(255) NOT NULL,
-    cur_avaliacao NUMBER(1) NOT NULL,
+    cur_avaliacao NUMBER(1) NOT NULL,/*Alterar Not Null*/
     cur_status CHAR(1),
     
     CONSTRAINT pk_cur_codigo PRIMARY KEY(cur_codigo),
@@ -260,6 +260,5 @@ CREATE TABLE parcelas(
     CONSTRAINT fk_par_com_codigo FOREIGN KEY(com_codigo) REFERENCES compra(com_codigo),
     CONSTRAINT ck_par_status CHECK(par_status in('AG','PG'))
 );
-
-
-
+commit;
+                    
