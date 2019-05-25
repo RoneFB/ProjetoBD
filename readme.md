@@ -3,4 +3,8 @@ Othon Rafael Ferreira Godoy
 
 Projeto: instrue
 
-![imagem](MER.jpg)
+Modelo Conceitual
+![imagem](Diagramas/Modelo Conceitural.jpg)
+
+Modelo Lógico
+![imagem](Diagramas/modelo_logico.jpg)
