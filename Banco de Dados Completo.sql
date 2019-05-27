@@ -62,6 +62,7 @@ CREATE TABLE usuario(
     CONSTRAINT uq_usu_login UNIQUE(usu_login),
     CONSTRAINT uq_usu_email UNIQUE(usu_email)    
 );
+
 insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (1, 'Lars', 'lduly0@nhs.uk', 'IW2FE0fhanib', 'Lars Duly', 'http://dummyimage.com/117x175.bmp/ff4444/ffffff', 'A');
 insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (2, 'Killy', 'kkinlock1@cnet.com', '7DuM8gRz6wQ', 'Killy Kinlock', 'http://dummyimage.com/216x158.jpg/cc0000/ffffff', 'A');
 insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (3, 'Katti', 'kbrigman2@artisteer.com', 'BSFyp2zrBlhl', 'Katti Brigman', 'http://dummyimage.com/247x157.png/cc0000/ffffff', 'A');
@@ -122,6 +123,25 @@ insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_
 insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (58, 'Juliana', 'juju@home.pl', 'UM8SeyGD2u8', 'Juliana Fagundes', 'http://dummyimage.com/239x126.bmp/dddddd/000000', 'A');
 insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (59, 'Francisco', 'francisco@tiny.cc', 'LwjDY4Q', 'Francisco Silva', 'http://dummyimage.com/130x115.jpg/dddddd/000000', 'A');
 insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (60, 'Joaquina', 'joaquina@columbia.edu', 'ib7aBlb1uO2', 'Joaquina Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (61, 'José', 'jose@columbia.edu', 'ib7aBlb1uO2', 'José Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (62, 'Raimundo', 'raimundo@columbia.edu', 'ib7aBlb1uO2', 'Raimundo Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (63, 'Junio', 'Junio@columbia.edu', 'ib7aBlb1uO2', 'Junio Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (64, 'Henrique', 'henrique@columbia.edu', 'ib7aBlb1uO2', 'Henrique Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (65, 'Carolina', 'carolina@columbia.edu', 'ib7aBlb1uO2', 'Carolina Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (66, 'Fernando', 'fernando@columbia.edu', 'ib7aBlb1uO2', 'Fernando Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (67, 'Alex', 'Alex@columbia.edu', 'ib7aBlb1uO2', 'Alex Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (68, 'Antonio', 'antonio@columbia.edu', 'ib7aBlb1uO2', 'Antonio Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (69, 'Gustavo', 'gustavo@columbia.edu', 'ib7aBlb1uO2', 'Gustavo Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (70, 'Alfredo', 'alfredo@columbia.edu', 'ib7aBlb1uO2', 'Alfredo Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (71, 'Fulando de Tal', 'fulano@columbia.edu', 'ib7aBlb1uO2', 'Fulando Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (72, 'Vanessa', 'vanessa@columbia.edu', 'ib7aBlb1uO2', 'Vanessa Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (73, 'Cléber', 'cleber@columbia.edu', 'ib7aBlb1uO2', 'Cléber Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (74, 'James', 'james@columbia.edu', 'ib7aBlb1uO2', 'James Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (75, 'João', 'jooao@columbia.edu', 'ib7aBlb1uO2', 'João Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (76, 'Maria', 'maria@columbia.edu', 'ib7aBlb1uO2', 'Maria Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (77, 'Pedro', 'pedro@columbia.edu', 'ib7aBlb1uO2', 'Pedro Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (78, 'Tiago', 'tiago@columbia.edu', 'ib7aBlb1uO2', 'Tiago Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
+insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (79, 'Rita', 'rita@columbia.edu', 'ib7aBlb1uO2', 'Rita Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
 
 
 CREATE TABLE instrutor(
@@ -133,17 +153,38 @@ CREATE TABLE instrutor(
     CONSTRAINT uq_ins_documento UNIQUE(ins_documento)
 );
 
-
-insert into instrutor (usu_codigo, ins_documento) values (51, '55312-020');
-insert into instrutor (usu_codigo, ins_documento) values (52, '44237-016');
-insert into instrutor (usu_codigo, ins_documento) values (53, '55154-9391');
-insert into instrutor (usu_codigo, ins_documento) values (54, '0069-3120');
-insert into instrutor (usu_codigo, ins_documento) values (55, '52125-226');
-insert into instrutor (usu_codigo, ins_documento) values (56, '42043-142');
-insert into instrutor (usu_codigo, ins_documento) values (57, '59726-025');
-insert into instrutor (usu_codigo, ins_documento) values (58, '37000-845');
-insert into instrutor (usu_codigo, ins_documento) values (59, '36987-3139');
-insert into instrutor (usu_codigo, ins_documento) values (60, '63148-215');
+insert into instrutor (usu_codigo, ins_documento) values (51, '45312-020');
+insert into instrutor (usu_codigo, ins_documento) values (52, '54237-016');
+insert into instrutor (usu_codigo, ins_documento) values (53, '65154-9391');
+insert into instrutor (usu_codigo, ins_documento) values (54, '7069-3120');
+insert into instrutor (usu_codigo, ins_documento) values (55, '82125-226');
+insert into instrutor (usu_codigo, ins_documento) values (56, '92043-142');
+insert into instrutor (usu_codigo, ins_documento) values (57, '59796-025');
+insert into instrutor (usu_codigo, ins_documento) values (58, '37050-845');
+insert into instrutor (usu_codigo, ins_documento) values (59, '35987-3139');
+insert into instrutor (usu_codigo, ins_documento) values (60, '63548-215');
+insert into instrutor (usu_codigo, ins_documento) values (61, '45512-020');
+insert into instrutor (usu_codigo, ins_documento) values (62, '44237-016');
+insert into instrutor (usu_codigo, ins_documento) values (63, '35454-9391');
+insert into instrutor (usu_codigo, ins_documento) values (64, '2069-3120');
+insert into instrutor (usu_codigo, ins_documento) values (65, '52125-226');
+insert into instrutor (usu_codigo, ins_documento) values (66, '12043-142');
+insert into instrutor (usu_codigo, ins_documento) values (67, '555776-025');
+insert into instrutor (usu_codigo, ins_documento) values (68, '47700-8688');
+insert into instrutor (usu_codigo, ins_documento) values (69, '36987-3669');
+insert into instrutor (usu_codigo, ins_documento) values (70, '63148-555');
+insert into instrutor (usu_codigo, ins_documento) values (71, '55312-324');
+insert into instrutor (usu_codigo, ins_documento) values (72, '44787-016');
+insert into instrutor (usu_codigo, ins_documento) values (73, '12154-9391');
+insert into instrutor (usu_codigo, ins_documento) values (74, '8869-3120');
+insert into instrutor (usu_codigo, ins_documento) values (75, '77125-226');
+insert into instrutor (usu_codigo, ins_documento) values (76, '55043-142');
+insert into instrutor (usu_codigo, ins_documento) values (77, '33726-025');
+insert into instrutor (usu_codigo, ins_documento) values (78, '34000-845');
+insert into instrutor (usu_codigo, ins_documento) values (79, '38000-845');
+insert into instrutor (usu_codigo, ins_documento) values (48, '59779-590');
+insert into instrutor (usu_codigo, ins_documento) values (49, '63777-204');
+insert into instrutor (usu_codigo, ins_documento) values (50, '49999-797');
 
 CREATE TABLE aluno(
     usu_codigo NUMBER(5),
@@ -201,9 +242,7 @@ insert into aluno (usu_codigo, alu_matricula) values (44, '63739-448');
 insert into aluno (usu_codigo, alu_matricula) values (45, '17312-019');
 insert into aluno (usu_codigo, alu_matricula) values (46, '48951-5007');
 insert into aluno (usu_codigo, alu_matricula) values (47, '55154-6664');
-insert into aluno (usu_codigo, alu_matricula) values (48, '59779-590');
-insert into aluno (usu_codigo, alu_matricula) values (49, '63777-204');
-insert into aluno (usu_codigo, alu_matricula) values (50, '49999-797');
+
 
 CREATE TABLE categoria(
     cat_codigo NUMBER(5),
@@ -244,6 +283,37 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A
 insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (14,'Linux','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
 insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (15,'SEO','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
+
+insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (16,'React','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
+insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (17,'Autocad','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
+insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (18,'Office','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
+insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (19,'Catia V5','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
+insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (20,'Solid Works','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
+insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (21,'Power Bi','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
+insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (22,'Canvas','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
+insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (23,'Administração de Banco de Dados','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
+insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (24,'Web Service','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
+insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (25,'Etical Hacking','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
+insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (26,'Power Shell','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
+insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (27,'Ruby on Rails','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
+insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (28,'Bootstrap 4','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
+insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (29,'AngularJS','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
+insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (30,'Node.js','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
 
 CREATE TABLE curso(
@@ -322,6 +392,37 @@ values (19, 15, 'Google Adwards','Lorem ipsum dolor sit amet, consectetur adipis
 insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao, cur_preco, cur_thumbnail, cur_avaliacao, cur_status)
 values (20, 2, 'Javascript e JQuery','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
 '50 Horas', 220.0, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',3, 'A');
+
+insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao, cur_preco, cur_thumbnail, cur_avaliacao, cur_status)
+values (21, 19, 'Catia','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+'40 Horas', 150.0, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',4, 'A');
+insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao, cur_preco, cur_thumbnail, cur_avaliacao, cur_status)
+values (22, 20, 'Projetos com Solid Works','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+'33 Horas', 130.0, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',5, 'A');
+insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao, cur_preco, cur_thumbnail, cur_avaliacao, cur_status)
+values (23, 21, 'Power BI','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+'31 Horas', 90.0, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',4, 'A');
+insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao, cur_preco, cur_thumbnail, cur_avaliacao, cur_status)
+values (24, 23, 'Introdução DBA','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+'10 Horas', 70.0, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',5, 'A');
+insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao, cur_preco, cur_thumbnail, cur_avaliacao, cur_status)
+values (25, 24, 'REST Java','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+'20 Horas', 200.0, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',3, 'A');
+insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao, cur_preco, cur_thumbnail, cur_avaliacao, cur_status)
+values (26, 25, 'Kali Linux','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+'15 Horas', 139.0, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',5, 'A');
+insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao, cur_preco, cur_thumbnail, cur_avaliacao, cur_status)
+values (27, 26,'Comandos Básicos Power Shell','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+'50 Horas', 259.0, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',4, 'A');
+insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao, cur_preco, cur_thumbnail, cur_avaliacao, cur_status)
+values (28, 27, 'Ruby on Rails - Introdução','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+'40 Horas', 160.0, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',2, 'A');
+insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao, cur_preco, cur_thumbnail, cur_avaliacao, cur_status)
+values (29, 28, 'Site responsivo com bootstrap 4','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+'35 Horas', 55.0, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',4, 'A');
+insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao, cur_preco, cur_thumbnail, cur_avaliacao, cur_status)
+values (30, 29, 'Introdução Angular','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+'60 Horas', 49.90, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',5, 'A');
 
 
 CREATE TABLE instrutorcurso(
@@ -454,8 +555,6 @@ CREATE TABLE aula(
     CONSTRAINT fk_aul_mod_codigo FOREIGN KEY(mod_codigo) REFERENCES modulo(mod_codigo),
     CONSTRAINT ck_aul_status CHECK(aul_status in('A','I'))
 );
-
-
 
 insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
 values(1,1,'Apresentação a Linguagem Java','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -628,7 +727,258 @@ cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
 
 
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(14,8,'Aula 1 Modulo 1 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(15,8,'Aula 2 Modulo 1 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(16,8,'Aula 3 Modulo 1 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(17,8,'Aula 4 Modulo 1 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(18,8,'Aula 5 Modulo 1 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
 
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(19,8,'Aula 1 Modulo 2 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(20,9,'Aula 2 Modulo 2 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(21,9,'Aula 3 Modulo 2 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(22,9,'Aula 4 Modulo 2 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(23,9,'Aula 5 Modulo 2 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(24,10,'Aula 1 Modulo 3 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(25,10,'Aula 2 Modulo 3 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(26,10,'Aula 3 Modulo 3 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(27,10,'Aula 4 Modulo 3 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(28,11,'Aula 1 Modulo 4 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(29,11,'Aula 2 Modulo 4 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(30,11,'Aula 3 Modulo 4 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(31,12,'Aula 1 Modulo 5 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
+insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
+values(32,12,'Aula 2 Modulo 5 PHP','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
 
 CREATE TABLE anexo(
     ane_codigo NUMBER(5),
@@ -662,9 +1012,6 @@ CREATE TABLE compra(
     com_codigo NUMBER(5),
     usu_codigo NUMBER(5),
     com_data DATE NOT NULL,
-    com_subtotal NUMBER(10,2) NOT NULL,
-    com_desconto NUMBER(10,2),
-    com_total NUMBER(10,2) NOT NULL,
     com_formapgto VARCHAR2(30) NOT NULL,
     com_parcelas NUMBER(2) NOT NULL,
     com_status CHAR(2) NOT NULL,
@@ -685,55 +1032,39 @@ CREATE TABLE itemcompra(
     CONSTRAINT fk_itc_com_codigo FOREIGN KEY(com_codigo) REFERENCES compra(com_codigo)  
 );
 
-
 /*Compra 1*/
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA,COM_SUBTOTAL, COM_DESCONTO, COM_TOTAL, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS)
-values(1,1,'25/05/2019',0,0,0, 'Crédito', 1,'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS)
+values(1,1,'25/05/2019','Crédito',1,'AG');
     insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
     values(1,1,4,150);
     insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
-    values(2,1,4,130);
-    update compra set COM_SUBTOTAL = 
-        (select SUM(ITC_VALOR) 
-            from itemcompra where COM_CODIGO = 1) where COM_CODIGO = 1;
+    values(2,1,4,130);    
 
 /*Compra 2*/
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA,COM_SUBTOTAL, COM_DESCONTO, COM_TOTAL, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS)
-values(2,2,'11/04/2019',0,0,0, 'Débito', 1,'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS)
+values(2,2,'11/04/2019','Débito',1,'AG');
     insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
     values(2,2,4,130);
     insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
-    values(3,2,4,90);
-    update compra set COM_SUBTOTAL = 
-        (select SUM(ITC_VALOR) 
-            from itemcompra where COM_CODIGO = 2)  where COM_CODIGO = 2;
+    values(3,2,4,90);    
 
 /*Compra 3*/
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA,COM_SUBTOTAL, COM_DESCONTO, COM_TOTAL, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS)
-values(3,3,'08/03/2019',0,0,0, 'Boleto', 1,'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS)
+values(3,3,'08/03/2019','Boleto',1,'AG');
     insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
     values(5,3,5,200);
-    update compra set COM_SUBTOTAL = 
-        (select SUM(ITC_VALOR) 
-            from itemcompra where COM_CODIGO = 3) where COM_CODIGO = 3;
-
-
 
 /*Compra 4*/
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA,COM_SUBTOTAL, COM_DESCONTO, COM_TOTAL, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS)
-values(4,4,'01/03/2019',0,0,0, 'Débito', 1,'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS)
+values(4,4,'01/03/2019','Débito',1,'AG');
     insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
     values(5,4,5,200);
     insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
     values(3,4,5,90);
-    update compra set COM_SUBTOTAL = 
-        (select SUM(ITC_VALOR) 
-            from itemcompra where COM_CODIGO = 4) where COM_CODIGO = 4;
-
 
 /*Compra 5*/
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA,COM_SUBTOTAL, COM_DESCONTO, COM_TOTAL, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS)
-values(5,5,'02/02/2019',0,0,0, 'Crédito', 2,'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS)
+values(5,5,'02/02/2019','Crédito',2,'AG');
     insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
     values(1,5,5,150);
     insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
@@ -741,10 +1072,7 @@ values(5,5,'02/02/2019',0,0,0, 'Crédito', 2,'AG');
     insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
     values(3,5,4,90);
     insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
-    values(4,5,5,70);
-    update compra set COM_SUBTOTAL = 
-        (select SUM(ITC_VALOR) 
-            from itemcompra where COM_CODIGO = 5) where COM_CODIGO = 5;
+    values(4,5,5,70);    
 
 CREATE TABLE parcelas(
     par_codigo NUMBER(5),
@@ -755,8 +1083,7 @@ CREATE TABLE parcelas(
     CONSTRAINT pk_par_codigo PRIMARY KEY(par_codigo, com_codigo),/*Coloquei parcelas com chave composta*/
     CONSTRAINT fk_par_com_codigo FOREIGN KEY(com_codigo) REFERENCES compra(com_codigo),
     CONSTRAINT ck_par_status CHECK(par_status in('AG','PG'))
-);                  
-
+);
 
 insert into parcelas(par_codigo, com_codigo, par_valor, par_status) 
 values(1,1,280,'AG');
@@ -770,3 +1097,118 @@ insert into parcelas(par_codigo, com_codigo, par_valor, par_status)
 values(1,5,220,'AG');
 insert into parcelas(par_codigo, com_codigo, par_valor, par_status) 
 values(2,5,220,'AG');
+
+/*CONSULTAS*/
+
+/*
+1) Listar, em ordem decrescente, o código, o nome, e a avaliação média dos 10 cursos mais bem avaliados da plataforma; 
+*/
+CREATE OR REPLACE VIEW vw_avaliacaocurso AS
+SELECT cur_codigo, ROUND(AVG(itc_avaliacao),1) AS cur_avaliacao
+FROM itemcompra
+GROUP BY cur_codigo
+ORDER BY cur_avaliacao DESC
+WITH READ ONLY;
+
+SELECT cur.cur_codigo, cur.cur_titulo, vw.cur_avaliacao
+FROM curso cur 
+INNER JOIN vw_avaliacaocurso vw
+ON cur.cur_codigo = vw.cur_codigo
+WHERE ROWNUM <= 10
+ORDER BY vw.cur_avaliacao DESC;
+
+/*
+2) Listar, em ordem crescente, o código, o nome e a avaliação média de todos os cursos cuja avaliação está abaixo da média geral;
+*/
+SELECT cur.cur_codigo, cur.cur_titulo, vw.cur_avaliacao
+FROM curso cur 
+INNER JOIN vw_avaliacaocurso vw
+ON cur.cur_codigo = vw.cur_codigo
+WHERE vw.cur_avaliacao < (SELECT AVG(cur_avaliacao) FROM vw_avaliacaocurso)
+ORDER BY vw.cur_avaliacao;
+
+/*
+3) Listar, em ordem decrescente, o código, o nome e a quantidade de vendas dos 10 cursos mais vendidos;
+*/
+CREATE OR REPLACE VIEW vw_vendacurso AS
+SELECT cur_codigo, COUNT(cur_codigo) AS cur_qtdvendas
+FROM itemcompra
+GROUP BY cur_codigo
+ORDER BY cur_qtdvendas DESC
+WITH READ ONLY;
+
+SELECT cur.cur_codigo, cur.cur_titulo, vw.cur_qtdvendas
+FROM curso cur
+INNER JOIN vw_vendacurso vw
+ON cur.cur_codigo = vw.cur_codigo
+WHERE ROWNUM <= 10 
+ORDER BY vw.cur_qtdvendas DESC;
+
+/*
+4) Listar o valor obtido com a venda de cursos, por trimestre, no ano de 2019;
+*/
+SELECT CASE WHEN EXTRACT(MONTH FROM com.com_data) in (1,2,3) THEN 'Primeiro'
+            WHEN EXTRACT(MONTH FROM com.com_data) in (4,5,6) THEN 'Segundo'
+            WHEN EXTRACT(MONTH FROM com.com_data) in (7,8,9) THEN 'Terceiro'
+            WHEN EXTRACT(MONTH FROM com.com_data) in (10,11,12) THEN 'Quarto'
+       END AS com_trimestre, 
+       EXTRACT(YEAR FROM com.com_data) as com_ano, 
+       SUM(CASE WHEN EXTRACT(MONTH FROM com.com_data) in (1,2,3) THEN itc.itc_valor 
+                WHEN EXTRACT(MONTH FROM com.com_data) in (4,5,6) THEN itc.itc_valor 
+                WHEN EXTRACT(MONTH FROM com.com_data) in (7,8,9) THEN itc.itc_valor 
+                WHEN EXTRACT(MONTH FROM com.com_data) in (10,11,12) THEN itc.itc_valor 
+           END) as com_total
+FROM compra com 
+INNER JOIN itemcompra itc
+ON com.com_codigo = itc.com_codigo 
+WHERE EXTRACT(YEAR FROM com.com_data) = 2019
+GROUP BY CASE WHEN EXTRACT(MONTH FROM com.com_data) in (1,2,3) THEN 'Primeiro' 
+                WHEN EXTRACT(MONTH FROM com.com_data) in (4,5,6) THEN 'Segundo' 
+                WHEN EXTRACT(MONTH FROM com.com_data) in (7,8,9) THEN 'Terceiro' 
+                WHEN EXTRACT(MONTH FROM com.com_data) in (10,11,12) THEN 'Quarto' END, 
+                EXTRACT(YEAR FROM com.com_data);
+
+/*
+5) Listar as formas de pagamento, a quantidade de compras que utilizaram elas para pagamento e a receita que cada forma de pagamento gerou;
+*/
+
+/*
+6) Listar o código, o nome e a quantidade de cursos comprados, em ordem decrescente, dos 10 alunos que mais compraram cursos no ano de 2019;
+*/
+
+/*
+7) Listar o código e o nome de todos os alunos, as 3 categorias de cursos mais comprados e a quantidade de cursos de cada categoria que eles compraram;
+*/
+
+/*
+8) Listar, em ordem decrescente, o código, o nome e a quantidade de cursos vendidos dos 10 instrutores que mais venderam cursos no ano de 2019;
+*/
+
+/*
+9) Listar a receita total obtida, por instrutor, com a venda de cursos no ano de 2019;
+*/
+
+/*
+10) Listar o código e o nome de todos os instrutores que venderam menos do que a média geral no ano de 2019;
+*/
+
+/*
+11) Listar de todos os instrutores;
+*/
+
+/*
+12) Listar o código, o nome e a média de avaliação de todos os instrutores cuja média de avaliação seja menor que a média geral;
+*/
+
+/*
+13) Listar o código e o nome de todos os instrutores, a categoria de cursos que eles mais ministraram aulas e a quantidade de cursos ministrados dessa categoria;
+*/
+
+/*
+14) Listar o código e o nome dos 10 instrutores que mais disponibilizaram anexos em suas aulas;
+*/
+
+/*
+15) Listar o código e o nome do instrutor e a quantidade de cursos vendidos cuja forma de pagamento utilizada foi cartão de crédito.
+*/
+
