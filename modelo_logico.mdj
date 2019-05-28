@@ -1957,7 +1957,7 @@
 									"font": "Arial;13;1",
 									"left": 1144,
 									"top": 637,
-									"width": 219.2490234375,
+									"width": 240.18994140625,
 									"height": 13,
 									"text": "Parcelas"
 								},
@@ -1983,7 +1983,7 @@
 											"font": "Arial;13;0",
 											"left": 1149,
 											"top": 660,
-											"width": 209.2490234375,
+											"width": 230.18994140625,
 											"height": 13
 										},
 										{
@@ -1998,7 +1998,7 @@
 											"font": "Arial;13;0",
 											"left": 1149,
 											"top": 675,
-											"width": 209.2490234375,
+											"width": 230.18994140625,
 											"height": 13
 										},
 										{
@@ -2013,7 +2013,7 @@
 											"font": "Arial;13;0",
 											"left": 1149,
 											"top": 690,
-											"width": 209.2490234375,
+											"width": 230.18994140625,
 											"height": 13
 										},
 										{
@@ -2028,21 +2028,21 @@
 											"font": "Arial;13;0",
 											"left": 1149,
 											"top": 705,
-											"width": 209.2490234375,
+											"width": 230.18994140625,
 											"height": 13
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 1144,
 									"top": 655,
-									"width": 219.2490234375,
+									"width": 240.18994140625,
 									"height": 68
 								}
 							],
 							"font": "Arial;13;0",
 							"left": 1144,
 							"top": 632,
-							"width": 219.2490234375,
+							"width": 240.18994140625,
 							"height": 105,
 							"nameLabel": {
 								"$ref": "AAAAAAFqyJhW1gUFoc4="
@@ -3766,6 +3766,7 @@
 							"name": "com_codigo",
 							"type": "NUMERIC",
 							"length": "5",
+							"primaryKey": true,
 							"foreignKey": true
 						},
 						{
