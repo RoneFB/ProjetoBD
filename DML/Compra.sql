@@ -1,88 +1,500 @@
-
-/*Compra 1*/
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA,COM_SUBTOTAL, COM_DESCONTO, COM_TOTAL, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS)
-values(1,1,'25/05/2019',0,0,0, 'Crédito', 1,'AG');
-
-	insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
-	values(1,1,4,150);
-
-
-	insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
-	values(2,1,4,130);
-
-
-	update compra set COM_SUBTOTAL = 
-		(select SUM(ITC_VALOR) 
-			from itemcompra where COM_CODIGO = 1) where COM_CODIGO = 1;
-
-
-
-
-
-
-/*Compra 2*/
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA,COM_SUBTOTAL, COM_DESCONTO, COM_TOTAL, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS)
-values(2,2,'11/04/2019',0,0,0, 'Débito', 1,'AG');
-
-
-	insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
-	values(2,2,4,130);
-
-
-	insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
-	values(3,2,4,90);
-
-	update compra set COM_SUBTOTAL = 
-		(select SUM(ITC_VALOR) 
-			from itemcompra where COM_CODIGO = 2)  where COM_CODIGO = 2;
-
-
-
-/*Compra 3*/
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA,COM_SUBTOTAL, COM_DESCONTO, COM_TOTAL, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS)
-values(3,3,'08/03/2019',0,0,0, 'Boleto', 1,'AG');
-
-	insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
-	values(5,3,5,200);
-
-	update compra set COM_SUBTOTAL = 
-		(select SUM(ITC_VALOR) 
-			from itemcompra where COM_CODIGO = 3) where COM_CODIGO = 3;
-
-
-
-/*Compra 4*/
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA,COM_SUBTOTAL, COM_DESCONTO, COM_TOTAL, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS)
-values(4,4,'01/03/2019',0,0,0, 'Débito', 1,'AG');
-
-	insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
-	values(5,4,5,200);
-
-	insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
-	values(3,4,5,90);
-
-	update compra set COM_SUBTOTAL = 
-		(select SUM(ITC_VALOR) 
-			from itemcompra where COM_CODIGO = 4) where COM_CODIGO = 4;
-
-
-/*Compra 5*/
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA,COM_SUBTOTAL, COM_DESCONTO, COM_TOTAL, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS)
-values(5,5,'02/02/2019',0,0,0, 'Crédito', 2,'AG');
-
-	insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
-	values(1,5,5,150);
-
-	insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
-	values(2,5,3,130);
-
-
-	insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
-	values(3,5,4,90);
-
-	insert into itemcompra(CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR)
-	values(4,5,5,70);
-
-	update compra set COM_SUBTOTAL = 
-		(select SUM(ITC_VALOR) 
-			from itemcompra where COM_CODIGO = 5) where COM_CODIGO = 5;
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (1, 35, '16/08/2017', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (2, 24, '16/08/2018', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (3, 18, '20/03/2017', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (4, 20, '25/12/2017', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (5, 23, '02/05/2019', 'visa', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (6, 47, '22/07/2017', 'americanexpress', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (7, 15, '07/08/2017', 'mastercard', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (8, 2, '19/01/2017', 'switch', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (9, 29, '21/10/2018', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (10, 14, '15/03/2018', 'visa', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (11, 5, '04/06/2018', 'diners-club-carte-blanche', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (12, 12, '17/02/2019', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (13, 7, '27/02/2017', 'mastercard', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (14, 38, '12/10/2017', 'diners-club-carte-blanche', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (15, 36, '04/06/2017', 'bankcard', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (16, 14, '19/01/2017', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (17, 36, '01/09/2017', 'bankcard', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (18, 2, '22/03/2017', 'bankcard', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (19, 3, '19/07/2017', 'instapayment', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (20, 32, '11/07/2018', 'americanexpress', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (21, 42, '04/02/2019', 'maestro', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (22, 26, '19/06/2017', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (23, 1, '25/02/2017', 'maestro', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (24, 16, '02/10/2018', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (25, 17, '16/12/2018', 'laser', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (26, 9, '06/11/2018', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (27, 26, '30/04/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (28, 45, '27/08/2018', 'visa', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (29, 26, '01/09/2017', 'bankcard', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (30, 44, '08/09/2018', 'solo', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (31, 41, '12/11/2017', 'laser', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (32, 30, '05/04/2017', 'maestro', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (33, 46, '02/03/2017', 'visa', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (34, 24, '31/05/2018', 'visa', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (35, 4, '07/07/2018', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (36, 43, '15/10/2018', 'switch', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (37, 36, '01/12/2017', 'mastercard', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (38, 1, '24/06/2017', 'switch', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (39, 21, '28/12/2018', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (40, 27, '06/06/2017', 'diners-club-enroute', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (41, 39, '20/09/2018', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (42, 41, '12/10/2017', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (43, 4, '07/12/2017', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (44, 18, '25/06/2018', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (45, 32, '18/03/2017', 'diners-club-international', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (46, 39, '30/06/2018', 'diners-club-carte-blanche', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (47, 9, '15/05/2019', 'diners-club-enroute', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (48, 24, '26/01/2017', 'switch', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (49, 2, '19/08/2018', 'china-unionpay', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (50, 25, '27/01/2018', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (51, 24, '24/01/2019', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (52, 7, '03/02/2019', 'china-unionpay', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (53, 3, '26/05/2019', 'switch', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (54, 42, '25/05/2019', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (55, 46, '11/01/2018', 'diners-club-carte-blanche', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (56, 29, '28/05/2018', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (57, 36, '02/11/2017', 'mastercard', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (58, 19, '12/04/2019', 'visa-electron', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (59, 28, '23/04/2019', 'visa', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (60, 46, '06/08/2018', 'bankcard', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (61, 40, '24/01/2019', 'visa', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (62, 6, '13/05/2019', 'china-unionpay', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (63, 46, '31/08/2017', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (64, 4, '24/10/2017', 'mastercard', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (65, 30, '26/04/2019', 'bankcard', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (66, 24, '05/01/2018', 'mastercard', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (67, 37, '29/01/2017', 'bankcard', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (68, 2, '20/04/2019', 'diners-club-us-ca', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (69, 14, '30/11/2017', 'visa-electron', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (70, 9, '15/06/2018', 'instapayment', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (71, 18, '21/06/2017', 'laser', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (72, 13, '03/01/2017', 'visa-electron', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (73, 26, '16/05/2019', 'maestro', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (74, 21, '25/04/2017', 'mastercard', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (75, 10, '17/03/2018', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (76, 3, '16/12/2017', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (77, 5, '28/03/2019', 'mastercard', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (78, 45, '05/02/2017', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (79, 46, '07/06/2017', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (80, 41, '27/09/2018', 'china-unionpay', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (81, 42, '14/02/2018', 'bankcard', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (82, 6, '08/10/2018', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (83, 44, '23/08/2017', 'diners-club-carte-blanche', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (84, 1, '30/03/2018', 'china-unionpay', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (85, 13, '13/08/2017', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (86, 15, '17/03/2017', 'bankcard', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (87, 42, '28/10/2017', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (88, 20, '27/09/2018', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (89, 37, '06/06/2018', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (90, 36, '14/04/2018', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (91, 18, '25/11/2017', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (92, 8, '16/02/2017', 'maestro', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (93, 1, '24/12/2018', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (94, 16, '03/01/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (95, 18, '04/04/2018', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (96, 6, '05/08/2018', 'laser', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (97, 26, '28/12/2018', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (98, 5, '18/05/2018', 'mastercard', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (99, 13, '23/07/2018', 'mastercard', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (100, 20, '16/08/2017', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (101, 7, '16/05/2018', 'visa', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (102, 9, '14/03/2018', 'bankcard', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (103, 47, '21/01/2019', 'mastercard', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (104, 47, '15/04/2018', 'visa', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (105, 7, '11/07/2017', 'instapayment', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (106, 3, '10/02/2018', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (107, 5, '11/11/2018', 'bankcard', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (108, 3, '19/08/2018', 'switch', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (109, 34, '09/10/2018', 'china-unionpay', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (110, 38, '07/08/2018', 'mastercard', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (111, 15, '16/04/2018', 'visa-electron', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (112, 43, '03/10/2018', 'bankcard', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (113, 38, '02/05/2017', 'switch', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (114, 27, '07/09/2017', 'maestro', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (115, 8, '25/01/2019', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (116, 39, '14/02/2018', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (117, 7, '02/12/2018', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (118, 25, '28/05/2018', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (119, 44, '30/04/2017', 'bankcard', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (120, 25, '06/08/2018', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (121, 13, '04/06/2018', 'visa-electron', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (122, 27, '25/03/2018', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (123, 11, '19/11/2017', 'switch', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (124, 25, '08/10/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (125, 17, '21/08/2017', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (126, 34, '15/06/2017', 'switch', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (127, 33, '26/06/2017', 'switch', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (128, 4, '26/06/2018', 'visa-electron', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (129, 12, '14/06/2017', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (130, 10, '07/07/2017', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (131, 2, '07/03/2018', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (132, 47, '08/08/2018', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (133, 3, '16/11/2018', 'maestro', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (134, 11, '28/06/2018', 'mastercard', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (135, 12, '21/02/2017', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (136, 15, '11/04/2019', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (137, 47, '18/12/2018', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (138, 33, '25/06/2017', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (139, 9, '20/01/2019', 'instapayment', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (140, 24, '30/05/2017', 'visa-electron', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (141, 22, '02/12/2017', 'switch', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (142, 11, '21/11/2017', 'switch', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (143, 47, '02/07/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (144, 20, '07/09/2017', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (145, 36, '10/06/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (146, 9, '10/10/2018', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (147, 13, '07/06/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (148, 22, '09/09/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (149, 8, '24/02/2017', 'visa', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (150, 18, '09/05/2018', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (151, 36, '09/11/2018', 'laser', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (152, 20, '18/03/2019', 'visa-electron', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (153, 40, '31/08/2017', 'laser', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (154, 1, '02/01/2019', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (155, 33, '31/03/2017', 'visa-electron', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (156, 29, '28/08/2017', 'visa-electron', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (157, 36, '23/02/2018', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (158, 12, '08/01/2017', 'switch', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (159, 9, '07/12/2018', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (160, 5, '22/11/2018', 'diners-club-carte-blanche', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (161, 19, '16/04/2018', 'americanexpress', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (162, 47, '23/04/2018', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (163, 33, '02/06/2018', 'switch', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (164, 12, '20/02/2017', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (165, 26, '15/02/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (166, 2, '25/04/2018', 'diners-club-enroute', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (167, 8, '19/05/2018', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (168, 18, '13/09/2017', 'visa-electron', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (169, 29, '19/03/2018', 'diners-club-us-ca', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (170, 21, '09/11/2018', 'diners-club-carte-blanche', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (171, 32, '16/03/2019', 'mastercard', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (172, 2, '03/07/2018', 'americanexpress', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (173, 2, '30/07/2017', 'china-unionpay', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (174, 5, '13/03/2019', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (175, 5, '17/07/2017', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (176, 38, '11/03/2018', 'maestro', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (177, 7, '12/01/2019', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (178, 21, '08/09/2017', 'diners-club-carte-blanche', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (179, 46, '19/01/2018', 'diners-club-us-ca', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (180, 24, '21/04/2018', 'mastercard', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (181, 13, '07/11/2017', 'mastercard', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (182, 11, '16/11/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (183, 43, '17/03/2018', 'americanexpress', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (184, 13, '30/08/2018', 'visa-electron', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (185, 42, '09/08/2017', 'visa', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (186, 35, '24/03/2019', 'diners-club-carte-blanche', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (187, 26, '06/04/2018', 'maestro', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (188, 27, '02/03/2017', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (189, 22, '28/02/2017', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (190, 39, '15/05/2017', 'diners-club-enroute', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (191, 26, '16/10/2018', 'bankcard', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (192, 39, '19/01/2017', 'mastercard', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (193, 5, '09/06/2018', 'laser', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (194, 7, '06/03/2018', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (195, 27, '29/03/2018', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (196, 9, '02/01/2019', 'switch', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (197, 27, '03/04/2017', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (198, 27, '03/05/2018', 'mastercard', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (199, 22, '12/05/2017', 'china-unionpay', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (200, 33, '06/11/2018', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (201, 10, '02/01/2017', 'diners-club-carte-blanche', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (202, 24, '25/06/2017', 'americanexpress', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (203, 1, '25/02/2017', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (204, 32, '04/03/2018', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (205, 47, '15/02/2017', 'visa-electron', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (206, 23, '17/10/2018', 'laser', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (207, 4, '03/02/2018', 'visa', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (208, 34, '19/11/2017', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (209, 18, '02/05/2018', 'mastercard', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (210, 40, '20/11/2017', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (211, 18, '17/04/2017', 'china-unionpay', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (212, 11, '22/07/2017', 'diners-club-enroute', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (213, 38, '22/06/2018', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (214, 4, '12/01/2017', 'bankcard', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (215, 45, '07/02/2019', 'visa-electron', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (216, 35, '10/06/2017', 'switch', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (217, 16, '01/08/2018', 'americanexpress', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (218, 5, '11/02/2017', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (219, 44, '09/01/2019', 'switch', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (220, 19, '01/07/2017', 'diners-club-enroute', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (221, 19, '25/08/2018', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (222, 20, '03/02/2019', 'switch', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (223, 44, '11/08/2017', 'visa-electron', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (224, 4, '17/01/2019', 'diners-club-international', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (225, 39, '14/03/2018', 'maestro', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (226, 33, '06/01/2018', 'visa', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (227, 4, '20/04/2017', 'maestro', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (228, 19, '10/05/2019', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (229, 28, '22/05/2019', 'switch', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (230, 28, '06/11/2018', 'china-unionpay', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (231, 11, '28/04/2018', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (232, 42, '04/03/2017', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (233, 37, '05/01/2018', 'americanexpress', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (234, 44, '13/11/2017', 'visa-electron', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (235, 42, '07/11/2018', 'switch', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (236, 1, '06/01/2018', 'diners-club-international', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (237, 33, '27/08/2018', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (238, 2, '20/02/2018', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (239, 36, '22/11/2017', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (240, 11, '11/04/2017', 'mastercard', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (241, 31, '28/02/2017', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (242, 16, '27/01/2017', 'visa', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (243, 14, '14/11/2017', 'china-unionpay', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (244, 20, '10/04/2018', 'visa', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (245, 24, '18/09/2017', 'diners-club-us-ca', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (246, 47, '03/02/2019', 'americanexpress', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (247, 21, '10/08/2017', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (248, 2, '12/08/2018', 'visa', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (249, 11, '27/12/2018', 'visa-electron', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (250, 11, '19/07/2017', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (251, 4, '06/01/2017', 'mastercard', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (252, 15, '17/02/2017', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (253, 8, '16/03/2017', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (254, 46, '01/11/2017', 'bankcard', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (255, 33, '22/12/2017', 'switch', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (256, 1, '11/10/2018', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (257, 26, '01/11/2018', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (258, 31, '12/09/2018', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (259, 32, '11/02/2019', 'visa', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (260, 41, '14/04/2017', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (261, 41, '10/01/2019', 'diners-club-us-ca', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (262, 46, '26/06/2018', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (263, 6, '08/05/2017', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (264, 38, '05/05/2019', 'visa-electron', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (265, 11, '22/05/2017', 'mastercard', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (266, 10, '21/03/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (267, 44, '03/06/2017', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (268, 7, '19/11/2017', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (269, 15, '09/11/2017', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (270, 36, '07/07/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (271, 45, '20/10/2017', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (272, 47, '06/03/2018', 'visa-electron', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (273, 6, '22/09/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (274, 10, '10/11/2017', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (275, 10, '14/12/2017', 'mastercard', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (276, 6, '14/11/2018', 'mastercard', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (277, 2, '08/12/2017', 'diners-club-us-ca', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (278, 7, '29/11/2017', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (279, 21, '23/02/2017', 'switch', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (280, 2, '25/10/2017', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (281, 28, '02/01/2017', 'maestro', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (282, 28, '05/02/2019', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (283, 2, '12/07/2017', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (284, 5, '11/12/2018', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (285, 14, '16/03/2017', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (286, 29, '05/11/2017', 'mastercard', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (287, 8, '06/05/2018', 'switch', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (288, 35, '09/03/2019', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (289, 9, '20/03/2019', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (290, 4, '17/01/2018', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (291, 12, '23/01/2017', 'switch', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (292, 31, '06/01/2019', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (293, 7, '24/02/2017', 'diners-club-carte-blanche', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (294, 36, '26/12/2017', 'visa-electron', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (295, 31, '20/04/2018', 'visa-electron', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (296, 23, '19/09/2018', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (297, 14, '22/02/2017', 'switch', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (298, 28, '24/12/2018', 'diners-club-us-ca', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (299, 47, '03/11/2018', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (300, 8, '06/03/2019', 'diners-club-us-ca', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (301, 2, '05/01/2017', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (302, 40, '11/08/2017', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (303, 26, '13/10/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (304, 30, '08/03/2017', 'instapayment', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (305, 37, '07/04/2018', 'maestro', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (306, 45, '05/08/2017', 'china-unionpay', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (307, 24, '30/05/2017', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (308, 22, '16/03/2017', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (309, 21, '08/05/2018', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (310, 30, '16/11/2018', 'mastercard', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (311, 9, '17/12/2018', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (312, 8, '23/05/2017', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (313, 44, '15/03/2017', 'switch', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (314, 6, '30/04/2019', 'mastercard', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (315, 13, '09/07/2018', 'laser', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (316, 7, '18/12/2018', 'switch', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (317, 7, '17/10/2017', 'switch', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (318, 41, '19/01/2017', 'solo', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (319, 25, '12/12/2017', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (320, 14, '12/09/2017', 'maestro', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (321, 15, '25/02/2017', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (322, 23, '27/06/2018', 'diners-club-carte-blanche', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (323, 35, '23/07/2018', 'maestro', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (324, 24, '01/12/2017', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (325, 33, '19/04/2017', 'switch', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (326, 23, '26/03/2017', 'americanexpress', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (327, 14, '25/06/2018', 'laser', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (328, 9, '08/05/2017', 'maestro', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (329, 20, '24/03/2017', 'visa-electron', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (330, 22, '24/01/2019', 'maestro', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (331, 8, '25/10/2018', 'diners-club-carte-blanche', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (332, 5, '10/06/2018', 'maestro', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (333, 8, '06/02/2019', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (334, 19, '20/10/2017', 'maestro', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (335, 23, '07/10/2017', 'maestro', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (336, 27, '05/12/2017', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (337, 1, '03/02/2018', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (338, 14, '28/08/2018', 'mastercard', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (339, 34, '23/04/2019', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (340, 27, '20/10/2018', 'instapayment', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (341, 40, '03/10/2018', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (342, 16, '03/10/2017', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (343, 45, '05/03/2019', 'maestro', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (344, 4, '15/03/2018', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (345, 41, '15/03/2018', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (346, 29, '23/12/2018', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (347, 21, '25/03/2018', 'diners-club-us-ca', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (348, 21, '10/11/2018', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (349, 6, '21/07/2018', 'mastercard', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (350, 41, '11/04/2019', 'mastercard', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (351, 7, '11/05/2018', 'visa-electron', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (352, 22, '20/07/2017', 'visa-electron', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (353, 12, '17/09/2017', 'visa', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (354, 17, '28/06/2017', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (355, 40, '18/01/2018', 'maestro', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (356, 11, '28/01/2017', 'visa-electron', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (357, 33, '26/04/2017', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (358, 14, '12/08/2018', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (359, 46, '25/02/2019', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (360, 43, '24/07/2018', 'visa-electron', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (361, 37, '13/06/2018', 'mastercard', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (362, 38, '30/10/2017', 'switch', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (363, 23, '26/06/2018', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (364, 9, '17/10/2017', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (365, 19, '18/05/2019', 'visa', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (366, 18, '16/10/2018', 'mastercard', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (367, 33, '16/01/2019', 'visa-electron', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (368, 32, '07/01/2018', 'mastercard', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (369, 1, '02/11/2018', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (370, 25, '30/10/2017', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (371, 30, '25/12/2017', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (372, 7, '09/02/2017', 'bankcard', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (373, 10, '25/06/2018', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (374, 35, '07/08/2017', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (375, 25, '16/02/2019', 'bankcard', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (376, 26, '26/01/2019', 'bankcard', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (377, 26, '12/09/2017', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (378, 24, '13/02/2018', 'mastercard', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (379, 42, '30/06/2018', 'americanexpress', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (380, 30, '13/08/2017', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (381, 5, '22/04/2017', 'switch', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (382, 44, '18/04/2018', 'americanexpress', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (383, 26, '14/01/2018', 'mastercard', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (384, 12, '12/04/2018', 'diners-club-enroute', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (385, 34, '15/02/2018', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (386, 47, '18/11/2017', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (387, 43, '20/11/2017', 'china-unionpay', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (388, 11, '17/02/2017', 'visa-electron', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (389, 14, '15/01/2017', 'mastercard', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (390, 36, '29/05/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (391, 33, '24/10/2017', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (392, 9, '30/11/2018', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (393, 23, '01/09/2018', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (394, 36, '09/12/2018', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (395, 39, '09/06/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (396, 12, '26/12/2018', 'maestro', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (397, 9, '07/02/2019', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (398, 46, '26/01/2017', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (399, 10, '30/08/2018', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (400, 27, '31/01/2017', 'visa-electron', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (401, 18, '08/07/2018', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (402, 31, '24/05/2019', 'diners-club-carte-blanche', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (403, 44, '22/04/2019', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (404, 18, '02/03/2018', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (405, 37, '30/06/2018', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (406, 13, '09/09/2017', 'visa-electron', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (407, 16, '08/06/2018', 'diners-club-carte-blanche', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (408, 7, '06/03/2018', 'china-unionpay', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (409, 47, '11/01/2018', 'mastercard', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (410, 22, '11/01/2017', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (411, 19, '20/03/2018', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (412, 29, '03/12/2017', 'diners-club-international', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (413, 13, '17/05/2018', 'diners-club-carte-blanche', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (414, 43, '20/06/2017', 'visa-electron', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (415, 22, '31/08/2018', 'maestro', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (416, 45, '08/01/2017', 'bankcard', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (417, 5, '31/03/2017', 'maestro', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (418, 16, '09/01/2018', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (419, 5, '01/05/2017', 'maestro', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (420, 5, '19/11/2018', 'solo', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (421, 12, '05/04/2019', 'visa-electron', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (422, 21, '07/08/2017', 'switch', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (423, 9, '20/10/2017', 'instapayment', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (424, 9, '11/12/2017', 'switch', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (425, 6, '24/02/2017', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (426, 21, '24/04/2018', 'switch', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (427, 29, '14/12/2018', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (428, 30, '19/02/2017', 'visa-electron', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (429, 38, '03/03/2018', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (430, 8, '25/04/2018', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (431, 37, '15/05/2018', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (432, 9, '18/06/2017', 'maestro', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (433, 41, '24/08/2018', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (434, 20, '11/02/2019', 'china-unionpay', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (435, 27, '03/01/2019', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (436, 16, '20/01/2017', 'americanexpress', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (437, 41, '12/07/2018', 'americanexpress', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (438, 5, '25/08/2017', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (439, 27, '12/05/2019', 'jcb', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (440, 26, '11/01/2017', 'switch', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (441, 45, '09/04/2019', 'jcb', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (442, 6, '13/11/2017', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (443, 14, '17/11/2017', 'switch', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (444, 10, '18/11/2017', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (445, 11, '14/08/2018', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (446, 39, '10/11/2017', 'switch', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (447, 47, '23/10/2017', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (448, 46, '15/09/2017', 'mastercard', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (449, 46, '24/10/2018', 'maestro', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (450, 42, '06/02/2017', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (451, 12, '05/05/2019', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (452, 2, '06/07/2018', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (453, 15, '28/10/2018', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (454, 3, '06/06/2017', 'visa', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (455, 12, '19/01/2019', 'china-unionpay', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (456, 35, '13/01/2019', 'mastercard', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (457, 5, '29/03/2017', 'maestro', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (458, 39, '01/11/2018', 'visa-electron', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (459, 47, '21/11/2018', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (460, 27, '04/10/2017', 'jcb', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (461, 26, '15/06/2017', 'jcb', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (462, 30, '12/11/2018', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (463, 30, '21/03/2018', 'china-unionpay', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (464, 5, '23/12/2018', 'laser', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (465, 46, '21/07/2018', 'instapayment', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (466, 42, '30/10/2017', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (467, 29, '13/10/2017', 'visa-electron', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (468, 34, '12/08/2017', 'bankcard', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (469, 38, '09/01/2019', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (470, 16, '07/05/2017', 'visa', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (471, 2, '15/08/2017', 'jcb', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (472, 24, '30/04/2018', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (473, 23, '28/01/2018', 'china-unionpay', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (474, 24, '18/04/2017', 'visa-electron', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (475, 19, '18/03/2018', 'bankcard', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (476, 42, '08/02/2018', 'bankcard', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (477, 27, '10/12/2017', 'diners-club-us-ca', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (478, 45, '02/03/2019', 'mastercard', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (479, 12, '05/05/2018', 'diners-club-enroute', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (480, 4, '06/03/2017', 'laser', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (481, 18, '14/07/2018', 'visa-electron', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (482, 46, '09/07/2017', 'jcb', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (483, 32, '17/12/2017', 'switch', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (484, 6, '20/05/2017', 'bankcard', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (485, 37, '13/10/2017', 'visa', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (486, 15, '30/06/2017', 'jcb', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (487, 37, '06/08/2018', 'jcb', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (488, 7, '12/05/2019', 'diners-club-enroute', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (489, 26, '15/12/2017', 'visa-electron', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (490, 42, '26/01/2018', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (491, 26, '16/05/2019', 'jcb', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (492, 1, '13/03/2018', 'mastercard', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (493, 20, '13/03/2019', 'laser', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (494, 16, '21/10/2018', 'china-unionpay', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (495, 45, '21/08/2018', 'visa-electron', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (496, 41, '24/01/2019', 'jcb', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (497, 23, '14/03/2017', 'diners-club-carte-blanche', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (498, 35, '13/04/2018', 'maestro', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (499, 12, '12/03/2017', 'visa-electron', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (500, 4, '31/05/2017', 'diners-club-carte-blanche', 1, 'AG');
