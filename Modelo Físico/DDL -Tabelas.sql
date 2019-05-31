@@ -167,7 +167,7 @@ CREATE TABLE compra(
     
     CONSTRAINT pk_com_codigo PRIMARY KEY(com_codigo),
     CONSTRAINT fk_com_usu_codigo FOREIGN KEY(usu_codigo) REFERENCES aluno(usu_codigo),
-    CONSTRAINT ck_com_status CHECK(com_status in('AG','PG')),
+    CONSTRAINT ck_com_status CHECK(com_status in('AG','PG', 'CN')),
     CONSTRAINT ck_com_formapgto CHECK(com_formapgto in('CREDITO','DEBITO','BOLETO','TRANSFERENCIA')),
     CONSTRAINT ck_com_nparcelas CHECK(com_parcelas <= 12));
 
@@ -191,6 +191,6 @@ CREATE TABLE parcelas(
     
     CONSTRAINT pk_par_codigo PRIMARY KEY(par_codigo, com_codigo),/*Coloquei parcelas com chave composta*/
     CONSTRAINT fk_par_com_codigo FOREIGN KEY(com_codigo) REFERENCES compra(com_codigo),
-    CONSTRAINT ck_par_status CHECK(par_status in('AG','PG'))
+    CONSTRAINT ck_par_status CHECK(par_status in('AG','PG','CN'))
 );
 
