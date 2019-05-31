@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <MER>
 	<Informacoes>
-		<Posicao Left="392" Top="270"/>
-		<TotalItens Valor="244"/>
+		<Posicao Left="90" Top="313"/>
+		<TotalItens Valor="248"/>
 		<Tipo Valor="CONCEITUAL"/>
 		<Versao Valor="2.0.0"/>
 		<Autor Valor=""/>
@@ -1574,7 +1574,7 @@
       <Atributos>
         <Atributo nome="Codigo" id="366">
           <Left Valor="1189"/>
-          <Top Valor="841"/>
+          <Top Valor="838"/>
           <Width Valor="65"/>
           <Height Valor="16"/>
           <Fonte default="-1"/>
@@ -1606,7 +1606,7 @@
         </Atributo>
         <Atributo nome="Valor" id="369">
           <Left Valor="1189"/>
-          <Top Valor="873"/>
+          <Top Valor="877"/>
           <Width Valor="56"/>
           <Height Valor="16"/>
           <Fonte default="-1"/>
@@ -1638,7 +1638,7 @@
         </Atributo>
         <Atributo nome="Status" id="372">
           <Left Valor="1189"/>
-          <Top Valor="857"/>
+          <Top Valor="851"/>
           <Width Valor="64"/>
           <Height Valor="16"/>
           <Fonte default="-1"/>
@@ -1662,6 +1662,38 @@
           <Ligacoes>
             <Ligacao Destino_ID="362">
               <MostraCardinalidade Valor="0" Card_id="374"/>
+              <Cardinalidades Cardinalidade="4"/>
+              <Orientacao Valor="0"/>
+              <Fraca Valor="0"/>
+            </Ligacao>
+          </Ligacoes>
+        </Atributo>
+        <Atributo nome="Data" id="569">
+          <Left Valor="1189"/>
+          <Top Valor="864"/>
+          <Width Valor="54"/>
+          <Height Valor="16"/>
+          <Fonte default="-1"/>
+          <Atributos/>
+          <AtributosOcultos/>
+          <Dicionario></Dicionario>
+          <Nula Valor="0"/>
+          <Observacao></Observacao>
+          <Futuro></Futuro>
+          <Anexos/>
+          <MaxCard Valor="1"/>
+          <MinCard Valor="1"/>
+          <Composto Valor="0"/>
+          <Identificador Valor="0"/>
+          <Tipo Valor="Texto(1)"/>
+          <Multivalorado Valor="0"/>
+          <Orientacao Valor="3"/>
+          <TamAuto Valor="-1"/>
+          <Desvio Valor="10"/>
+          <BarraID Valor="570"/>
+          <Ligacoes>
+            <Ligacao Destino_ID="362">
+              <MostraCardinalidade Valor="0" Card_id="571"/>
               <Cardinalidades Cardinalidade="4"/>
               <Orientacao Valor="0"/>
               <Fraca Valor="0"/>

@@ -63,6 +63,141 @@ CREATE TABLE usuario(
     CONSTRAINT uq_usu_email UNIQUE(usu_email)    
 );
 
+CREATE TABLE instrutor(
+    usu_codigo NUMBER(5),
+    ins_documento VARCHAR2(30) NOT NULL,    
+    
+    CONSTRAINT pk_ins_usu_codigo PRIMARY KEY(usu_codigo),
+    CONSTRAINT fk_ins_usu_codigo FOREIGN KEY(usu_codigo) REFERENCES usuario(usu_codigo),    
+    CONSTRAINT uq_ins_documento UNIQUE(ins_documento)
+);
+
+CREATE TABLE aluno(
+    usu_codigo NUMBER(5),
+    alu_matricula VARCHAR2(30) NOT NULL,
+    
+    CONSTRAINT pk_alu_usu_codigo PRIMARY KEY(usu_codigo),
+    CONSTRAINT fk_alu_usu_codigo FOREIGN KEY(usu_codigo) REFERENCES usuario(usu_codigo),
+    CONSTRAINT uq_alu_matricula UNIQUE(alu_matricula)
+);
+
+CREATE TABLE categoria(
+    cat_codigo NUMBER(5),
+    cat_nome VARCHAR2(50) NOT NULL,
+    cat_descricao VARCHAR2(255),
+    cat_status CHAR(1) NOT NULL,
+    
+    CONSTRAINT pk_cat_codigo PRIMARY KEY(cat_codigo),
+    CONSTRAINT ck_cat_status CHECK(cat_status in('A','I'))
+);
+
+CREATE TABLE curso(
+    cur_codigo NUMBER(5),
+    cat_codigo NUMBER(5),
+    cur_titulo VARCHAR2(50) NOT NULL,
+    cur_descricao VARCHAR2(255) NOT NULL,
+    cur_duracao VARCHAR2(10) NOT NULL,
+    cur_preco NUMBER(10,2) NOT NULL,
+    cur_thumbnail VARCHAR2(255) NOT NULL,
+    cur_avaliacao NUMBER(1),
+    cur_status CHAR(1),
+    
+    CONSTRAINT pk_cur_codigo PRIMARY KEY(cur_codigo),
+    CONSTRAINT fk_cur_cat_codigo FOREIGN KEY(cat_codigo) REFERENCES categoria(cat_codigo),
+    CONSTRAINT ck_cur_status CHECK(cur_status in('A','I'))    
+);
+
+CREATE TABLE instrutorcurso(
+    usu_codigo NUMBER(5),
+    cur_codigo NUMBER(5),
+    
+    CONSTRAINT pk_inc_codigo PRIMARY KEY(usu_codigo, cur_codigo),
+    CONSTRAINT fk_inc_cur_codigo FOREIGN KEY(cur_codigo) REFERENCES curso(cur_codigo),
+    CONSTRAINT fk_inc_uso_codigo FOREIGN KEY(usu_codigo) REFERENCES usuario(usu_codigo)
+);
+
+CREATE TABLE modulo(
+    mod_codigo NUMBER(5),
+    cur_codigo NUMBER(5),
+    mod_titulo VARCHAR2(50) NOT NULL,
+    mod_descricao VARCHAR2(255) NOT NULL,
+    mod_duracao VARCHAR2(10) NOT NULL,
+    mod_thumbnail VARCHAR2(255) NOT NULL,
+    mod_status CHAR(1) NOT NULL,
+    
+    CONSTRAINT pk_mod_codigo PRIMARY KEY(mod_codigo),
+    CONSTRAINT fk_mod_cur_codigo FOREIGN KEY(cur_codigo) REFERENCES curso(cur_codigo),
+    CONSTRAINT ck_mod_status CHECK(mod_status in('A','I'))
+);
+
+CREATE TABLE aula(
+    aul_codigo NUMBER(5),
+    mod_codigo NUMBER(5),
+    aul_titulo VARCHAR2(50) NOT NULL,
+    aul_descricao VARCHAR2(255) NOT NULL,
+    aul_conteudo LONG NOT NULL,
+    aul_video VARCHAR2(255),
+    aul_status CHAR(1) NOT NULL,
+    
+    CONSTRAINT pk_aul_codigo PRIMARY KEY(aul_codigo),
+    CONSTRAINT fk_aul_mod_codigo FOREIGN KEY(mod_codigo) REFERENCES modulo(mod_codigo),
+    CONSTRAINT ck_aul_status CHECK(aul_status in('A','I'))
+);
+
+CREATE TABLE anexo(
+    ane_codigo NUMBER(5),
+    aul_codigo NUMBER(5),
+    ane_titulo VARCHAR2(50) NOT NULL,
+    ane_comentario VARCHAR2(255),
+    ane_link VARCHAR2(255) NOT NULL,
+    ane_status CHAR(1) NOT NULL,
+    
+    CONSTRAINT pk_ane_codigo PRIMARY KEY(ane_codigo),
+    CONSTRAINT fk_ane_aul_codigo FOREIGN KEY(aul_codigo) REFERENCES aula(aul_codigo),
+    CONSTRAINT ck_ane_status CHECK(ane_status in('A','I'))
+);
+
+CREATE TABLE compra(
+    com_codigo NUMBER(5),
+    usu_codigo NUMBER(5),
+    com_data DATE NOT NULL,
+    com_formapgto VARCHAR2(30),
+    com_parcelas NUMBER(2),
+    com_status CHAR(2) NOT NULL,
+    
+    CONSTRAINT pk_com_codigo PRIMARY KEY(com_codigo),
+    CONSTRAINT fk_com_usu_codigo FOREIGN KEY(usu_codigo) REFERENCES aluno(usu_codigo),
+    CONSTRAINT ck_com_status CHECK(com_status in('AG','PG')),
+    CONSTRAINT ck_com_formapgto CHECK(com_formapgto in('CREDITO','DEBITO','BOLETO','TRANSFERENCIA')),
+    CONSTRAINT ck_com_nparcelas CHECK(com_parcelas <= 12));
+
+CREATE TABLE itemcompra(    
+    cur_codigo NUMBER(5),
+    com_codigo NUMBER(5),
+    itc_avaliacao NUMBER(1),
+    itc_valor NUMBER(10,2),
+    
+    CONSTRAINT pk_itc_codigo PRIMARY KEY(cur_codigo, com_codigo),
+    CONSTRAINT fk_itc_cur_codigo FOREIGN KEY(cur_codigo) REFERENCES curso(cur_codigo),
+    CONSTRAINT fk_itc_com_codigo FOREIGN KEY(com_codigo) REFERENCES compra(com_codigo)  
+);   
+
+CREATE TABLE parcelas(
+    par_codigo NUMBER(5),
+    com_codigo NUMBER(5),
+    par_valor NUMBER(10,2) NOT NULL,
+    par_data DATE NOT NULL,
+    par_status CHAR(2) NOT NULL,
+    
+    CONSTRAINT pk_par_codigo PRIMARY KEY(par_codigo, com_codigo),/*Coloquei parcelas com chave composta*/
+    CONSTRAINT fk_par_com_codigo FOREIGN KEY(com_codigo) REFERENCES compra(com_codigo),
+    CONSTRAINT ck_par_status CHECK(par_status in('AG','PG'))
+);
+
+
+/*INSERTS*/
+
+/*Usuário*/
 insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (1, 'Lars', 'lduly0@nhs.uk', 'IW2FE0fhanib', 'Lars Duly', 'http://dummyimage.com/117x175.bmp/ff4444/ffffff', 'A');
 insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (2, 'Killy', 'kkinlock1@cnet.com', '7DuM8gRz6wQ', 'Killy Kinlock', 'http://dummyimage.com/216x158.jpg/cc0000/ffffff', 'A');
 insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (3, 'Katti', 'kbrigman2@artisteer.com', 'BSFyp2zrBlhl', 'Katti Brigman', 'http://dummyimage.com/247x157.png/cc0000/ffffff', 'A');
@@ -143,16 +278,7 @@ insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_
 insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (78, 'Tiago', 'tiago@columbia.edu', 'ib7aBlb1uO2', 'Tiago Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
 insert into usuario (usu_codigo, usu_login, usu_email, usu_senha, usu_nome, usu_foto, usu_status) values (79, 'Rita', 'rita@columbia.edu', 'ib7aBlb1uO2', 'Rita Silva', 'http://dummyimage.com/160x242.bmp/cc0000/ffffff', 'A');
 
-
-CREATE TABLE instrutor(
-    usu_codigo NUMBER(5),
-    ins_documento VARCHAR2(30) NOT NULL,    
-    
-    CONSTRAINT pk_ins_usu_codigo PRIMARY KEY(usu_codigo),
-    CONSTRAINT fk_ins_usu_codigo FOREIGN KEY(usu_codigo) REFERENCES usuario(usu_codigo),    
-    CONSTRAINT uq_ins_documento UNIQUE(ins_documento)
-);
-
+/*Intrutor*/
 insert into instrutor (usu_codigo, ins_documento) values (51, '45312-020');
 insert into instrutor (usu_codigo, ins_documento) values (52, '54237-016');
 insert into instrutor (usu_codigo, ins_documento) values (53, '65154-9391');
@@ -186,15 +312,7 @@ insert into instrutor (usu_codigo, ins_documento) values (48, '59779-590');
 insert into instrutor (usu_codigo, ins_documento) values (49, '63777-204');
 insert into instrutor (usu_codigo, ins_documento) values (50, '49999-797');
 
-CREATE TABLE aluno(
-    usu_codigo NUMBER(5),
-    alu_matricula VARCHAR2(30) NOT NULL,
-    
-    CONSTRAINT pk_alu_usu_codigo PRIMARY KEY(usu_codigo),
-    CONSTRAINT fk_alu_usu_codigo FOREIGN KEY(usu_codigo) REFERENCES usuario(usu_codigo),
-    CONSTRAINT uq_alu_matricula UNIQUE(alu_matricula)
-);
-
+/*Aluno*/
 insert into aluno (usu_codigo, alu_matricula) values (1, '67510-0633');
 insert into aluno (usu_codigo, alu_matricula) values (2, '0699-1081');
 insert into aluno (usu_codigo, alu_matricula) values (3, '66382-223');
@@ -243,17 +361,7 @@ insert into aluno (usu_codigo, alu_matricula) values (45, '17312-019');
 insert into aluno (usu_codigo, alu_matricula) values (46, '48951-5007');
 insert into aluno (usu_codigo, alu_matricula) values (47, '55154-6664');
 
-
-CREATE TABLE categoria(
-    cat_codigo NUMBER(5),
-    cat_nome VARCHAR2(50) NOT NULL,
-    cat_descricao VARCHAR2(255),
-    cat_status CHAR(1) NOT NULL,
-    
-    CONSTRAINT pk_cat_codigo PRIMARY KEY(cat_codigo),
-    CONSTRAINT ck_cat_status CHECK(cat_status in('A','I'))
-);
-
+/*Categoria*/
 insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (1,'Back-End','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
 insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (2,'Front-End','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -284,7 +392,6 @@ insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (1
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
 insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (15,'SEO','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
-
 insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (16,'React','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
 insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (17,'Autocad','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -316,22 +423,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A
 insert into categoria(cat_codigo, cat_nome, cat_descricao, cat_status) values (30,'Node.js','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.','A');
 
-CREATE TABLE curso(
-    cur_codigo NUMBER(5),
-    cat_codigo NUMBER(5),
-    cur_titulo VARCHAR2(50) NOT NULL,
-    cur_descricao VARCHAR2(255) NOT NULL,
-    cur_duracao VARCHAR2(10) NOT NULL,
-    cur_preco NUMBER(10,2) NOT NULL,
-    cur_thumbnail VARCHAR2(255) NOT NULL,
-    cur_avaliacao NUMBER(1),
-    cur_status CHAR(1),
-    
-    CONSTRAINT pk_cur_codigo PRIMARY KEY(cur_codigo),
-    CONSTRAINT fk_cur_cat_codigo FOREIGN KEY(cat_codigo) REFERENCES categoria(cat_codigo),
-    CONSTRAINT ck_cur_status CHECK(cur_status in('A','I'))    
-);
-
+/*Curso*/
 insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao, cur_preco, cur_thumbnail, cur_avaliacao, cur_status)
 values (1, 1, 'Curso de Java','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
 '40 Horas', 150.0, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',4, 'A');
@@ -392,7 +484,6 @@ values (19, 15, 'Google Adwards','Lorem ipsum dolor sit amet, consectetur adipis
 insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao, cur_preco, cur_thumbnail, cur_avaliacao, cur_status)
 values (20, 2, 'Javascript e JQuery','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
 '50 Horas', 220.0, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',3, 'A');
-
 insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao, cur_preco, cur_thumbnail, cur_avaliacao, cur_status)
 values (21, 19, 'Catia','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
 '40 Horas', 150.0, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',4, 'A');
@@ -424,16 +515,7 @@ insert into curso(cur_codigo, cat_codigo, cur_titulo, cur_descricao, cur_duracao
 values (30, 29, 'Introdução Angular','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
 '60 Horas', 49.90, 'http://lorempixel.com/400/200/sports/1/Dummy-Text/',5, 'A');
 
-
-CREATE TABLE instrutorcurso(
-    usu_codigo NUMBER(5),
-    cur_codigo NUMBER(5),
-    
-    CONSTRAINT pk_inc_codigo PRIMARY KEY(usu_codigo, cur_codigo),
-    CONSTRAINT fk_inc_cur_codigo FOREIGN KEY(cur_codigo) REFERENCES curso(cur_codigo),
-    CONSTRAINT fk_inc_uso_codigo FOREIGN KEY(usu_codigo) REFERENCES usuario(usu_codigo)
-);
-
+/*Instrutor*/
 insert into instrutorcurso(usu_codigo, cur_codigo) values (51,1);
 insert into instrutorcurso(usu_codigo, cur_codigo) values (52,2);
 insert into instrutorcurso(usu_codigo, cur_codigo) values (53,3);
@@ -459,20 +541,7 @@ insert into instrutorcurso(usu_codigo, cur_codigo) values (51,15);
 insert into instrutorcurso(usu_codigo, cur_codigo) values (57,17);
 insert into instrutorcurso(usu_codigo, cur_codigo) values (56,20);
 
-CREATE TABLE modulo(
-    mod_codigo NUMBER(5),
-    cur_codigo NUMBER(5),
-    mod_titulo VARCHAR2(50) NOT NULL,
-    mod_descricao VARCHAR2(255) NOT NULL,
-    mod_duracao VARCHAR2(10) NOT NULL,
-    mod_thumbnail VARCHAR2(255) NOT NULL,
-    mod_status CHAR(1) NOT NULL,
-    
-    CONSTRAINT pk_mod_codigo PRIMARY KEY(mod_codigo),
-    CONSTRAINT fk_mod_cur_codigo FOREIGN KEY(cur_codigo) REFERENCES curso(cur_codigo),
-    CONSTRAINT ck_mod_status CHECK(mod_status in('A','I'))
-);
-
+/*Modulo*/
 insert into modulo(mod_codigo, cur_codigo, mod_titulo, mod_descricao, mod_duracao, mod_thumbnail, mod_status)
 values(1,1,'Conceitos Orientada a Objetos','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua','5h','http://lorempixel.com/400/200/sports/1/Dummy-Text/','A');
 insert into modulo(mod_codigo, cur_codigo, mod_titulo, mod_descricao, mod_duracao, mod_thumbnail, mod_status)
@@ -541,21 +610,7 @@ insert into modulo(mod_codigo, cur_codigo, mod_titulo, mod_descricao, mod_duraca
 values(33,5,'Bi Self no Excel','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua','4h','http://lorempixel.com/400/200/sports/1/Dummy-Text/','A');
 
 
-
-CREATE TABLE aula(
-    aul_codigo NUMBER(5),
-    mod_codigo NUMBER(5),
-    aul_titulo VARCHAR2(50) NOT NULL,
-    aul_descricao VARCHAR2(255) NOT NULL,
-    aul_conteudo LONG NOT NULL,
-    aul_video VARCHAR2(255),
-    aul_status CHAR(1) NOT NULL,
-    
-    CONSTRAINT pk_aul_codigo PRIMARY KEY(aul_codigo),
-    CONSTRAINT fk_aul_mod_codigo FOREIGN KEY(mod_codigo) REFERENCES modulo(mod_codigo),
-    CONSTRAINT ck_aul_status CHECK(aul_status in('A','I'))
-);
-
+/*Aulas*/
 insert into aula(aul_codigo, mod_codigo, aul_titulo, aul_descricao, aul_conteudo, aul_video, aul_status)
 values(1,1,'Apresentação a Linguagem Java','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua.','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -980,71 +1035,59 @@ consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','https://www.youtube.com/?gl=BRhl=pt', 'A');
 
-CREATE TABLE anexo(
-    ane_codigo NUMBER(5),
-    aul_codigo NUMBER(5),
-    ane_titulo VARCHAR2(50) NOT NULL,
-    ane_comentario VARCHAR2(255),
-    ane_link VARCHAR2(255) NOT NULL,
-    ane_status CHAR(1) NOT NULL,
-    
-    CONSTRAINT pk_ane_codigo PRIMARY KEY(ane_codigo),
-    CONSTRAINT fk_ane_aul_codigo FOREIGN KEY(aul_codigo) REFERENCES aula(aul_codigo),
-    CONSTRAINT ck_ane_status CHECK(ane_status in('A','I'))
-);
-
+/*Anexo*/
 insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (1, 1, 'Apostila 1', 'Bacteremia', '/vel/ipsum/praesent/blandit/lacinia/erat.html', 'A');
-insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (2, 2, 'Apostila 1', 'Gambling and betting', '/risus/auctor.aspx', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (2, 1, 'Apostila 2', 'Gambling and betting', '/risus/auctor.aspx', 'A');
 insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (3, 3, 'Apostila 1', 'Exfl d/t eryth 80-89 bdy', '/cras/non/velit/nec/nisi.js', 'A');
-insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (4, 4, 'Apostila 1', 'Taeniasis NOS', '/eget/orci/vehicula/condimentum/curabitur/in/libero.aspx', 'A');
-insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (5, 5, 'Apostila 1', 'Tubal ligation status', '/nisl/aenean/lectus/pellentesque/eget/nunc.aspx', 'A');
-insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (6, 6, 'Apostila 1', 'Ob trauma NEC-del w p/p', '/sit/amet/eleifend/pede/libero/quis/orci.png', 'A');
-insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (7, 7, 'Apostila 1', 'Cicatricial entropion', '/maecenas/ut/massa/quis/augue.jpg', 'A');
-insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (8, 8, 'Apostila 1', 'Food pois: v. parahaem', '/a/libero/nam/dui/proin/leo.json', 'A');
-insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (9, 9, 'Apostila 1', 'Venomous bite/sting NOS', '/ipsum/ac.png', 'A');
-insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (10, 10, 'Apostila 1', 'Submers NEC-crew', '/vestibulum/proin/eu/mi/nulla/ac/enim.aspx', 'A');
-insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (11, 11, 'Apostila 1', 'Ascending colon inj-open', '/quisque.js', 'A');
-insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (13, 2, 'Apostila 2', 'Inf mcrg rstn sulfnmides', '/consequat/dui.xml', 'A');
-insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (14, 5, 'Apostila 2', 'Ca in situ fem gen NEC', '/in/magna/bibendum/imperdiet.js', 'A');
-insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (15, 13, 'Apostila 1', 'Cl skull fx NEC-brf coma', '/eu.html', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (4, 3, 'Apostila 2', 'Taeniasis NOS', '/eget/orci/vehicula/condimentum/curabitur/in/libero.aspx', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (5, 4, 'Apostila 1', 'Tubal ligation status', '/nisl/aenean/lectus/pellentesque/eget/nunc.aspx', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (6, 5, 'Apostila 1', 'Ob trauma NEC-del w p/p', '/sit/amet/eleifend/pede/libero/quis/orci.png', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (7, 5, 'Apostila 2', 'Cicatricial entropion', '/maecenas/ut/massa/quis/augue.jpg', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (8, 5, 'Apostila 3', 'Food pois: v. parahaem', '/a/libero/nam/dui/proin/leo.json', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (9, 5, 'Apostila 4', 'Venomous bite/sting NOS', '/ipsum/ac.png', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (10, 6, 'Apostila 1', 'Submers NEC-crew', '/vestibulum/proin/eu/mi/nulla/ac/enim.aspx', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (11, 7, 'Apostila 1', 'Ascending colon inj-open', '/quisque.js', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (13, 8, 'Apostila 1', 'Inf mcrg rstn sulfnmides', '/consequat/dui.xml', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (14, 9, 'Apostila 1', 'Ca in situ fem gen NEC', '/in/magna/bibendum/imperdiet.js', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (15, 9, 'Apostila 2', 'Cl skull fx NEC-brf coma', '/eu.html', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (16, 9, 'Apostila 3', 'Bacteremia', '/vel/ipsum/praesent/blandit/lacinia/erat.html', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (17, 10, 'Apostila 1', 'Gambling and betting', '/risus/auctor.aspx', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (18, 10, 'Apostila 2', 'Exfl d/t eryth 80-89 bdy', '/cras/non/velit/nec/nisi.js', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (19, 12, 'Apostila 1', 'Taeniasis NOS', '/eget/orci/vehicula/condimentum/curabitur/in/libero.aspx', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (20, 13, 'Apostila 1', 'Tubal ligation status', '/nisl/aenean/lectus/pellentesque/eget/nunc.aspx', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (21, 14, 'Apostila 1', 'Ob trauma NEC-del w p/p', '/sit/amet/eleifend/pede/libero/quis/orci.png', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (22, 15, 'Apostila 1', 'Cicatricial entropion', '/maecenas/ut/massa/quis/augue.jpg', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (23, 15, 'Apostila 2', 'Food pois: v. parahaem', '/a/libero/nam/dui/proin/leo.json', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (24, 16, 'Apostila 1', 'Venomous bite/sting NOS', '/ipsum/ac.png', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (25, 17, 'Apostila 1', 'Submers NEC-crew', '/vestibulum/proin/eu/mi/nulla/ac/enim.aspx', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (26, 18, 'Apostila 1', 'Ascending colon inj-open', '/quisque.js', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (27, 18, 'Apostila 2', 'Inf mcrg rstn sulfnmides', '/consequat/dui.xml', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (29, 18, 'Apostila 3', 'Ca in situ fem gen NEC', '/in/magna/bibendum/imperdiet.js', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (30, 19, 'Apostila 1', 'Cl skull fx NEC-brf coma', '/eu.html', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (31, 25, 'Apostila 2', 'Inf mcrg rstn sulfnmides', '/consequat/dui.xml', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (32, 26, 'Apostila 2', 'Ca in situ fem gen NEC', '/in/magna/bibendum/imperdiet.js', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (33, 27, 'Apostila 1', 'Cl skull fx NEC-brf coma', '/eu.html', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (34, 25, 'Apostila 2', 'Inf mcrg rstn sulfnmides', '/consequat/dui.xml', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (35, 26, 'Apostila 2', 'Ca in situ fem gen NEC', '/in/magna/bibendum/imperdiet.js', 'A');
+insert into anexo (ANE_CODIGO, AUL_CODIGO, ANE_TITULO, ANE_COMENTARIO, ANE_LINK, ANE_STATUS) values (36, 27, 'Apostila 2', 'Cl skull fx NEC-brf coma', '/eu.html', 'A');
 
-CREATE TABLE compra(
-    com_codigo NUMBER(5),
-    usu_codigo NUMBER(5),
-    com_data DATE NOT NULL,
-    com_formapgto VARCHAR2(30) NOT NULL,
-    com_parcelas NUMBER(2) NOT NULL,
-    com_status CHAR(2) NOT NULL,
-    
-    CONSTRAINT pk_com_codigo PRIMARY KEY(com_codigo),
-    CONSTRAINT fk_com_usu_codigo FOREIGN KEY(usu_codigo) REFERENCES aluno(usu_codigo),
-    CONSTRAINT ck_com_status CHECK(com_status in('AG','PG'))
-);
 
-CREATE TABLE itemcompra(    
-    cur_codigo NUMBER(5),
-    com_codigo NUMBER(5),
-    itc_avaliacao NUMBER(1),
-    itc_valor NUMBER(10,2),
-    
-    CONSTRAINT pk_itc_codigo PRIMARY KEY(cur_codigo, com_codigo),
-    CONSTRAINT fk_itc_cur_codigo FOREIGN KEY(cur_codigo) REFERENCES curso(cur_codigo),
-    CONSTRAINT fk_itc_com_codigo FOREIGN KEY(com_codigo) REFERENCES compra(com_codigo)  
-);
+/*Compra*/
+
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (1, 35, '16/08/2017', 'CREDITO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (2, 24, '16/08/2018', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (3, 18, '20/03/2017', 'CREDITO', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (4, 20, '25/12/2017', 'CREDITO', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (5, 23, '02/05/2019', 'DEBITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (6, 47, '22/07/2017', 'BOLETO', 5, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (7, 15, '07/08/2017', 'TRANFERENCIA', 6, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (8, 2, '19/01/2017', 'TRANFERENCIA', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (7, 15, '07/08/2017', 'TRANSFERENCIA', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (8, 2, '19/01/2017', 'TRANSFERENCIA', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (9, 29, '21/10/2018', 'CREDITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (10, 14, '15/03/2018', 'DEBITO', 2, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (11, 5, '04/06/2018', 'TRANFERENCIA', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (11, 5, '04/06/2018', 'TRANSFERENCIA', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (12, 12, '17/02/2019', 'CREDITO', 3, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (13, 7, '27/02/2017', 'TRANFERENCIA', 3, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (14, 38, '12/10/2017', 'TRANFERENCIA', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (13, 7, '27/02/2017', 'TRANSFERENCIA', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (14, 38, '12/10/2017', 'TRANSFERENCIA', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (15, 36, '04/06/2017', 'BOLETO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (16, 14, '19/01/2017', 'CREDITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (17, 36, '01/09/2017', 'BOLETO', 4, 'AG');
@@ -1066,9 +1109,9 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (33, 46, '02/03/2017', 'DEBITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (34, 24, '31/05/2018', 'DEBITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (35, 4, '07/07/2018', 'CREDITO', 1, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (36, 43, '15/10/2018', 'TRANFERENCIA', 4, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (37, 36, '01/12/2017', 'TRANFERENCIA', 1, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (38, 1, '24/06/2017', 'TRANFERENCIA', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (36, 43, '15/10/2018', 'TRANSFERENCIA', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (37, 36, '01/12/2017', 'TRANSFERENCIA', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (38, 1, '24/06/2017', 'TRANSFERENCIA', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (39, 21, '28/12/2018', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (40, 27, '06/06/2017', 'CREDITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (41, 39, '20/09/2018', 'CREDITO', 2, 'AG');
@@ -1076,27 +1119,27 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (43, 4, '07/12/2017', 'CREDITO', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (44, 18, '25/06/2018', 'CREDITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (45, 32, '18/03/2017', 'CREDITO', 3, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (46, 39, '30/06/2018', 'TRANFERENCIA', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (46, 39, '30/06/2018', 'TRANSFERENCIA', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (47, 9, '15/05/2019', 'CREDITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (48, 24, '26/01/2017', 'TRANFERENCIA', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (48, 24, '26/01/2017', 'TRANSFERENCIA', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (49, 2, '19/08/2018', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (50, 25, '27/01/2018', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (51, 24, '24/01/2019', 'CREDITO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (52, 7, '03/02/2019', 'CREDITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (53, 3, '26/05/2019', 'TRANFERENCIA', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (53, 3, '26/05/2019', 'TRANSFERENCIA', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (54, 42, '25/05/2019', 'CREDITO', 2, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (55, 46, '11/01/2018', 'TRANFERENCIA', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (55, 46, '11/01/2018', 'TRANSFERENCIA', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (56, 29, '28/05/2018', 'CREDITO', 10, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (57, 36, '02/11/2017', 'TRANFERENCIA', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (57, 36, '02/11/2017', 'TRANSFERENCIA', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (58, 19, '12/04/2019', 'CREDITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (59, 28, '23/04/2019', 'DEBITO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (60, 46, '06/08/2018', 'BOLETO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (61, 40, '24/01/2019', 'DEBITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (62, 6, '13/05/2019', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (63, 46, '31/08/2017', 'CREDITO', 9, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (64, 4, '24/10/2017', 'TRANFERENCIA', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (64, 4, '24/10/2017', 'TRANSFERENCIA', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (65, 30, '26/04/2019', 'BOLETO', 4, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (66, 24, '05/01/2018', 'TRANFERENCIA', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (66, 24, '05/01/2018', 'TRANSFERENCIA', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (67, 37, '29/01/2017', 'BOLETO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (68, 2, '20/04/2019', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (69, 14, '30/11/2017', 'CREDITO', 2, 'AG');
@@ -1104,16 +1147,16 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (71, 18, '21/06/2017', 'DEBITO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (72, 13, '03/01/2017', 'CREDITO', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (73, 26, '16/05/2019', 'DEBITO', 9, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (74, 21, '25/04/2017', 'TRANFERENCIA', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (74, 21, '25/04/2017', 'TRANSFERENCIA', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (75, 10, '17/03/2018', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (76, 3, '16/12/2017', 'CREDITO', 4, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (77, 5, '28/03/2019', 'TRANFERENCIA', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (77, 5, '28/03/2019', 'TRANSFERENCIA', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (78, 45, '05/02/2017', 'CREDITO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (79, 46, '07/06/2017', 'CREDITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (80, 41, '27/09/2018', 'CREDITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (81, 42, '14/02/2018', 'BOLETO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (82, 6, '08/10/2018', 'CREDITO', 2, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (83, 44, '23/08/2017', 'TRANFERENCIA', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (83, 44, '23/08/2017', 'TRANSFERENCIA', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (84, 1, '30/03/2018', 'CREDITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (85, 13, '13/08/2017', 'CREDITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (86, 15, '17/03/2017', 'BOLETO', 5, 'AG');
@@ -1128,22 +1171,22 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (95, 18, '04/04/2018', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (96, 6, '05/08/2018', 'DEBITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (97, 26, '28/12/2018', 'CREDITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (98, 5, '18/05/2018', 'TRANFERENCIA', 9, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (99, 13, '23/07/2018', 'TRANFERENCIA', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (98, 5, '18/05/2018', 'TRANSFERENCIA', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (99, 13, '23/07/2018', 'TRANSFERENCIA', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (100, 20, '16/08/2017', 'CREDITO', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (101, 7, '16/05/2018', 'DEBITO', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (102, 9, '14/03/2018', 'BOLETO', 6, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (103, 47, '21/01/2019', 'TRANFERENCIA', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (103, 47, '21/01/2019', 'TRANSFERENCIA', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (104, 47, '15/04/2018', 'DEBITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (105, 7, '11/07/2017', 'DEBITO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (106, 3, '10/02/2018', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (107, 5, '11/11/2018', 'BOLETO', 7, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (108, 3, '19/08/2018', 'TRANFERENCIA', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (108, 3, '19/08/2018', 'TRANSFERENCIA', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (109, 34, '09/10/2018', 'CREDITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (110, 38, '07/08/2018', 'TRANFERENCIA', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (110, 38, '07/08/2018', 'TRANSFERENCIA', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (111, 15, '16/04/2018', 'CREDITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (112, 43, '03/10/2018', 'BOLETO', 6, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (113, 38, '02/05/2017', 'TRANFERENCIA', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (113, 38, '02/05/2017', 'TRANSFERENCIA', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (114, 27, '07/09/2017', 'DEBITO', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (115, 8, '25/01/2019', 'CREDITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (116, 39, '14/02/2018', 'CREDITO', 8, 'AG');
@@ -1153,26 +1196,26 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (120, 25, '06/08/2018', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (121, 13, '04/06/2018', 'CREDITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (122, 27, '25/03/2018', 'CREDITO', 9, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (123, 11, '19/11/2017', 'TRANFERENCIA', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (123, 11, '19/11/2017', 'TRANSFERENCIA', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (124, 25, '08/10/2018', 'CREDITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (125, 17, '21/08/2017', 'CREDITO', 2, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (126, 34, '15/06/2017', 'TRANFERENCIA', 5, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (127, 33, '26/06/2017', 'TRANFERENCIA', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (126, 34, '15/06/2017', 'TRANSFERENCIA', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (127, 33, '26/06/2017', 'TRANSFERENCIA', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (128, 4, '26/06/2018', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (129, 12, '14/06/2017', 'CREDITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (130, 10, '07/07/2017', 'CREDITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (131, 2, '07/03/2018', 'CREDITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (132, 47, '08/08/2018', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (133, 3, '16/11/2018', 'DEBITO', 1, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (134, 11, '28/06/2018', 'TRANFERENCIA', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (134, 11, '28/06/2018', 'TRANSFERENCIA', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (135, 12, '21/02/2017', 'CREDITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (136, 15, '11/04/2019', 'CREDITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (137, 47, '18/12/2018', 'CREDITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (138, 33, '25/06/2017', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (139, 9, '20/01/2019', 'DEBITO', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (140, 24, '30/05/2017', 'CREDITO', 4, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (141, 22, '02/12/2017', 'TRANFERENCIA', 10, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (142, 11, '21/11/2017', 'TRANFERENCIA', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (141, 22, '02/12/2017', 'TRANSFERENCIA', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (142, 11, '21/11/2017', 'TRANSFERENCIA', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (143, 47, '02/07/2018', 'CREDITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (144, 20, '07/09/2017', 'CREDITO', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (145, 36, '10/06/2018', 'CREDITO', 4, 'AG');
@@ -1188,50 +1231,50 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (155, 33, '31/03/2017', 'CREDITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (156, 29, '28/08/2017', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (157, 36, '23/02/2018', 'CREDITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (158, 12, '08/01/2017', 'TRANFERENCIA', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (158, 12, '08/01/2017', 'TRANSFERENCIA', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (159, 9, '07/12/2018', 'CREDITO', 9, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (160, 5, '22/11/2018', 'TRANFERENCIA', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (160, 5, '22/11/2018', 'TRANSFERENCIA', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (161, 19, '16/04/2018', 'BOLETO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (162, 47, '23/04/2018', 'CREDITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (163, 33, '02/06/2018', 'TRANFERENCIA', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (163, 33, '02/06/2018', 'TRANSFERENCIA', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (164, 12, '20/02/2017', 'CREDITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (165, 26, '15/02/2018', 'CREDITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (166, 2, '25/04/2018', 'CREDITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (167, 8, '19/05/2018', 'CREDITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (168, 18, '13/09/2017', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (169, 29, '19/03/2018', 'CREDITO', 9, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (170, 21, '09/11/2018', 'TRANFERENCIA', 5, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (171, 32, '16/03/2019', 'TRANFERENCIA', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (170, 21, '09/11/2018', 'TRANSFERENCIA', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (171, 32, '16/03/2019', 'TRANSFERENCIA', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (172, 2, '03/07/2018', 'BOLETO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (173, 2, '30/07/2017', 'CREDITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (174, 5, '13/03/2019', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (175, 5, '17/07/2017', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (176, 38, '11/03/2018', 'DEBITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (177, 7, '12/01/2019', 'CREDITO', 1, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (178, 21, '08/09/2017', 'TRANFERENCIA', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (178, 21, '08/09/2017', 'TRANSFERENCIA', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (179, 46, '19/01/2018', 'CREDITO', 2, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (180, 24, '21/04/2018', 'TRANFERENCIA', 2, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (181, 13, '07/11/2017', 'TRANFERENCIA', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (180, 24, '21/04/2018', 'TRANSFERENCIA', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (181, 13, '07/11/2017', 'TRANSFERENCIA', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (182, 11, '16/11/2018', 'CREDITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (183, 43, '17/03/2018', 'BOLETO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (184, 13, '30/08/2018', 'CREDITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (185, 42, '09/08/2017', 'DEBITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (186, 35, '24/03/2019', 'TRANFERENCIA', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (186, 35, '24/03/2019', 'TRANSFERENCIA', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (187, 26, '06/04/2018', 'DEBITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (188, 27, '02/03/2017', 'CREDITO', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (189, 22, '28/02/2017', 'CREDITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (190, 39, '15/05/2017', 'CREDITO', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (191, 26, '16/10/2018', 'BOLETO', 4, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (192, 39, '19/01/2017', 'TRANFERENCIA', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (192, 39, '19/01/2017', 'TRANSFERENCIA', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (193, 5, '09/06/2018', 'DEBITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (194, 7, '06/03/2018', 'CREDITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (195, 27, '29/03/2018', 'CREDITO', 2, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (196, 9, '02/01/2019', 'TRANFERENCIA', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (196, 9, '02/01/2019', 'TRANSFERENCIA', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (197, 27, '03/04/2017', 'CREDITO', 6, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (198, 27, '03/05/2018', 'TRANFERENCIA', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (198, 27, '03/05/2018', 'TRANSFERENCIA', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (199, 22, '12/05/2017', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (200, 33, '06/11/2018', 'CREDITO', 1, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (201, 10, '02/01/2017', 'TRANFERENCIA', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (201, 10, '02/01/2017', 'TRANSFERENCIA', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (202, 24, '25/06/2017', 'BOLETO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (203, 1, '25/02/2017', 'CREDITO', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (204, 32, '04/03/2018', 'CREDITO', 6, 'AG');
@@ -1239,38 +1282,38 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (206, 23, '17/10/2018', 'DEBITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (207, 4, '03/02/2018', 'DEBITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (208, 34, '19/11/2017', 'CREDITO', 5, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (209, 18, '02/05/2018', 'TRANFERENCIA', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (209, 18, '02/05/2018', 'TRANSFERENCIA', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (210, 40, '20/11/2017', 'CREDITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (211, 18, '17/04/2017', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (212, 11, '22/07/2017', 'CREDITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (213, 38, '22/06/2018', 'CREDITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (214, 4, '12/01/2017', 'BOLETO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (215, 45, '07/02/2019', 'CREDITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (216, 35, '10/06/2017', 'TRANFERENCIA', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (216, 35, '10/06/2017', 'TRANSFERENCIA', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (217, 16, '01/08/2018', 'BOLETO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (218, 5, '11/02/2017', 'CREDITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (219, 44, '09/01/2019', 'TRANFERENCIA', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (219, 44, '09/01/2019', 'TRANSFERENCIA', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (220, 19, '01/07/2017', 'CREDITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (221, 19, '25/08/2018', 'CREDITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (222, 20, '03/02/2019', 'TRANFERENCIA', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (222, 20, '03/02/2019', 'TRANSFERENCIA', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (223, 44, '11/08/2017', 'CREDITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (224, 4, '17/01/2019', 'CREDITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (225, 39, '14/03/2018', 'DEBITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (226, 33, '06/01/2018', 'DEBITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (227, 4, '20/04/2017', 'DEBITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (228, 19, '10/05/2019', 'CREDITO', 5, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (229, 28, '22/05/2019', 'TRANFERENCIA', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (229, 28, '22/05/2019', 'TRANSFERENCIA', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (230, 28, '06/11/2018', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (231, 11, '28/04/2018', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (232, 42, '04/03/2017', 'CREDITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (233, 37, '05/01/2018', 'BOLETO', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (234, 44, '13/11/2017', 'CREDITO', 4, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (235, 42, '07/11/2018', 'TRANFERENCIA', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (235, 42, '07/11/2018', 'TRANSFERENCIA', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (236, 1, '06/01/2018', 'CREDITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (237, 33, '27/08/2018', 'CREDITO', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (238, 2, '20/02/2018', 'CREDITO', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (239, 36, '22/11/2017', 'CREDITO', 1, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (240, 11, '11/04/2017', 'TRANFERENCIA', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (240, 11, '11/04/2017', 'TRANSFERENCIA', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (241, 31, '28/02/2017', 'CREDITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (242, 16, '27/01/2017', 'DEBITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (243, 14, '14/11/2017', 'CREDITO', 4, 'AG');
@@ -1281,11 +1324,11 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (248, 2, '12/08/2018', 'DEBITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (249, 11, '27/12/2018', 'CREDITO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (250, 11, '19/07/2017', 'CREDITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (251, 4, '06/01/2017', 'TRANFERENCIA', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (251, 4, '06/01/2017', 'TRANSFERENCIA', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (252, 15, '17/02/2017', 'CREDITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (253, 8, '16/03/2017', 'CREDITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (254, 46, '01/11/2017', 'BOLETO', 10, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (255, 33, '22/12/2017', 'TRANFERENCIA', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (255, 33, '22/12/2017', 'TRANSFERENCIA', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (256, 1, '11/10/2018', 'CREDITO', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (257, 26, '01/11/2018', 'CREDITO', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (258, 31, '12/09/2018', 'CREDITO', 10, 'AG');
@@ -1295,7 +1338,7 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (262, 46, '26/06/2018', 'CREDITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (263, 6, '08/05/2017', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (264, 38, '05/05/2019', 'CREDITO', 2, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (265, 11, '22/05/2017', 'TRANFERENCIA', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (265, 11, '22/05/2017', 'TRANSFERENCIA', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (266, 10, '21/03/2018', 'CREDITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (267, 44, '03/06/2017', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (268, 7, '19/11/2017', 'CREDITO', 2, 'AG');
@@ -1305,29 +1348,29 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (272, 47, '06/03/2018', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (273, 6, '22/09/2018', 'CREDITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (274, 10, '10/11/2017', 'CREDITO', 10, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (275, 10, '14/12/2017', 'TRANFERENCIA', 9, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (276, 6, '14/11/2018', 'TRANFERENCIA', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (275, 10, '14/12/2017', 'TRANSFERENCIA', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (276, 6, '14/11/2018', 'TRANSFERENCIA', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (277, 2, '08/12/2017', 'CREDITO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (278, 7, '29/11/2017', 'CREDITO', 1, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (279, 21, '23/02/2017', 'TRANFERENCIA', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (279, 21, '23/02/2017', 'TRANSFERENCIA', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (280, 2, '25/10/2017', 'CREDITO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (281, 28, '02/01/2017', 'DEBITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (282, 28, '05/02/2019', 'CREDITO', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (283, 2, '12/07/2017', 'CREDITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (284, 5, '11/12/2018', 'CREDITO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (285, 14, '16/03/2017', 'CREDITO', 5, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (286, 29, '05/11/2017', 'TRANFERENCIA', 5, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (287, 8, '06/05/2018', 'TRANFERENCIA', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (286, 29, '05/11/2017', 'TRANSFERENCIA', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (287, 8, '06/05/2018', 'TRANSFERENCIA', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (288, 35, '09/03/2019', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (289, 9, '20/03/2019', 'CREDITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (290, 4, '17/01/2018', 'CREDITO', 10, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (291, 12, '23/01/2017', 'TRANFERENCIA', 3, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (291, 12, '23/01/2017', 'TRANSFERENCIA', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (292, 31, '06/01/2019', 'CREDITO', 3, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (293, 7, '24/02/2017', 'TRANFERENCIA', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (293, 7, '24/02/2017', 'TRANSFERENCIA', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (294, 36, '26/12/2017', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (295, 31, '20/04/2018', 'CREDITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (296, 23, '19/09/2018', 'CREDITO', 6, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (297, 14, '22/02/2017', 'TRANFERENCIA', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (297, 14, '22/02/2017', 'TRANSFERENCIA', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (298, 28, '24/12/2018', 'CREDITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (299, 47, '03/11/2018', 'CREDITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (300, 8, '06/03/2019', 'CREDITO', 10, 'AG');
@@ -1340,35 +1383,35 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (307, 24, '30/05/2017', 'CREDITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (308, 22, '16/03/2017', 'CREDITO', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (309, 21, '08/05/2018', 'CREDITO', 2, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (310, 30, '16/11/2018', 'TRANFERENCIA', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (310, 30, '16/11/2018', 'TRANSFERENCIA', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (311, 9, '17/12/2018', 'CREDITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (312, 8, '23/05/2017', 'CREDITO', 5, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (313, 44, '15/03/2017', 'TRANFERENCIA', 10, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (314, 6, '30/04/2019', 'TRANFERENCIA', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (313, 44, '15/03/2017', 'TRANSFERENCIA', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (314, 6, '30/04/2019', 'TRANSFERENCIA', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (315, 13, '09/07/2018', 'DEBITO', 7, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (316, 7, '18/12/2018', 'TRANFERENCIA', 10, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (317, 7, '17/10/2017', 'TRANFERENCIA', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (316, 7, '18/12/2018', 'TRANSFERENCIA', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (317, 7, '17/10/2017', 'TRANSFERENCIA', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (318, 41, '19/01/2017', 'DEBITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (319, 25, '12/12/2017', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (320, 14, '12/09/2017', 'DEBITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (321, 15, '25/02/2017', 'CREDITO', 10, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (322, 23, '27/06/2018', 'TRANFERENCIA', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (322, 23, '27/06/2018', 'TRANSFERENCIA', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (323, 35, '23/07/2018', 'DEBITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (324, 24, '01/12/2017', 'CREDITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (325, 33, '19/04/2017', 'TRANFERENCIA', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (325, 33, '19/04/2017', 'TRANSFERENCIA', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (326, 23, '26/03/2017', 'BOLETO', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (327, 14, '25/06/2018', 'DEBITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (328, 9, '08/05/2017', 'DEBITO', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (329, 20, '24/03/2017', 'CREDITO', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (330, 22, '24/01/2019', 'DEBITO', 10, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (331, 8, '25/10/2018', 'TRANFERENCIA', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (331, 8, '25/10/2018', 'TRANSFERENCIA', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (332, 5, '10/06/2018', 'DEBITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (333, 8, '06/02/2019', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (334, 19, '20/10/2017', 'DEBITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (335, 23, '07/10/2017', 'DEBITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (336, 27, '05/12/2017', 'CREDITO', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (337, 1, '03/02/2018', 'CREDITO', 10, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (338, 14, '28/08/2018', 'TRANFERENCIA', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (338, 14, '28/08/2018', 'TRANSFERENCIA', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (339, 34, '23/04/2019', 'CREDITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (340, 27, '20/10/2018', 'DEBITO', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (341, 40, '03/10/2018', 'CREDITO', 7, 'AG');
@@ -1379,8 +1422,8 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (346, 29, '23/12/2018', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (347, 21, '25/03/2018', 'CREDITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (348, 21, '10/11/2018', 'CREDITO', 2, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (349, 6, '21/07/2018', 'TRANFERENCIA', 4, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (350, 41, '11/04/2019', 'TRANFERENCIA', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (349, 6, '21/07/2018', 'TRANSFERENCIA', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (350, 41, '11/04/2019', 'TRANSFERENCIA', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (351, 7, '11/05/2018', 'CREDITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (352, 22, '20/07/2017', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (353, 12, '17/09/2017', 'DEBITO', 5, 'AG');
@@ -1391,14 +1434,14 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (358, 14, '12/08/2018', 'CREDITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (359, 46, '25/02/2019', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (360, 43, '24/07/2018', 'CREDITO', 9, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (361, 37, '13/06/2018', 'TRANFERENCIA', 4, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (362, 38, '30/10/2017', 'TRANFERENCIA', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (361, 37, '13/06/2018', 'TRANSFERENCIA', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (362, 38, '30/10/2017', 'TRANSFERENCIA', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (363, 23, '26/06/2018', 'CREDITO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (364, 9, '17/10/2017', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (365, 19, '18/05/2019', 'DEBITO', 6, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (366, 18, '16/10/2018', 'TRANFERENCIA', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (366, 18, '16/10/2018', 'TRANSFERENCIA', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (367, 33, '16/01/2019', 'CREDITO', 5, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (368, 32, '07/01/2018', 'TRANFERENCIA', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (368, 32, '07/01/2018', 'TRANSFERENCIA', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (369, 1, '02/11/2018', 'CREDITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (370, 25, '30/10/2017', 'CREDITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (371, 30, '25/12/2017', 'CREDITO', 3, 'AG');
@@ -1408,18 +1451,18 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (375, 25, '16/02/2019', 'BOLETO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (376, 26, '26/01/2019', 'BOLETO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (377, 26, '12/09/2017', 'CREDITO', 7, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (378, 24, '13/02/2018', 'TRANFERENCIA', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (378, 24, '13/02/2018', 'TRANSFERENCIA', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (379, 42, '30/06/2018', 'BOLETO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (380, 30, '13/08/2017', 'CREDITO', 9, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (381, 5, '22/04/2017', 'TRANFERENCIA', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (381, 5, '22/04/2017', 'TRANSFERENCIA', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (382, 44, '18/04/2018', 'BOLETO', 5, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (383, 26, '14/01/2018', 'TRANFERENCIA', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (383, 26, '14/01/2018', 'TRANSFERENCIA', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (384, 12, '12/04/2018', 'CREDITO', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (385, 34, '15/02/2018', 'CREDITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (386, 47, '18/11/2017', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (387, 43, '20/11/2017', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (388, 11, '17/02/2017', 'CREDITO', 7, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (389, 14, '15/01/2017', 'TRANFERENCIA', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (389, 14, '15/01/2017', 'TRANSFERENCIA', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (390, 36, '29/05/2018', 'CREDITO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (391, 33, '24/10/2017', 'CREDITO', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (392, 9, '30/11/2018', 'CREDITO', 8, 'AG');
@@ -1432,18 +1475,18 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (399, 10, '30/08/2018', 'CREDITO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (400, 27, '31/01/2017', 'CREDITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (401, 18, '08/07/2018', 'CREDITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (402, 31, '24/05/2019', 'TRANFERENCIA', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (402, 31, '24/05/2019', 'TRANSFERENCIA', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (403, 44, '22/04/2019', 'CREDITO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (404, 18, '02/03/2018', 'CREDITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (405, 37, '30/06/2018', 'CREDITO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (406, 13, '09/09/2017', 'CREDITO', 3, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (407, 16, '08/06/2018', 'TRANFERENCIA', 10, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (407, 16, '08/06/2018', 'TRANSFERENCIA', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (408, 7, '06/03/2018', 'CREDITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (409, 47, '11/01/2018', 'TRANFERENCIA', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (409, 47, '11/01/2018', 'TRANSFERENCIA', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (410, 22, '11/01/2017', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (411, 19, '20/03/2018', 'CREDITO', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (412, 29, '03/12/2017', 'CREDITO', 10, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (413, 13, '17/05/2018', 'TRANFERENCIA', 7, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (413, 13, '17/05/2018', 'TRANSFERENCIA', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (414, 43, '20/06/2017', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (415, 22, '31/08/2018', 'DEBITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (416, 45, '08/01/2017', 'BOLETO', 7, 'AG');
@@ -1452,11 +1495,11 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (419, 5, '01/05/2017', 'DEBITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (420, 5, '19/11/2018', 'DEBITO', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (421, 12, '05/04/2019', 'CREDITO', 2, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (422, 21, '07/08/2017', 'TRANFERENCIA', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (422, 21, '07/08/2017', 'TRANSFERENCIA', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (423, 9, '20/10/2017', 'DEBITO', 10, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (424, 9, '11/12/2017', 'TRANFERENCIA', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (424, 9, '11/12/2017', 'TRANSFERENCIA', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (425, 6, '24/02/2017', 'CREDITO', 6, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (426, 21, '24/04/2018', 'TRANFERENCIA', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (426, 21, '24/04/2018', 'TRANSFERENCIA', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (427, 29, '14/12/2018', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (428, 30, '19/02/2017', 'CREDITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (429, 38, '03/03/2018', 'CREDITO', 7, 'AG');
@@ -1470,15 +1513,15 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (437, 41, '12/07/2018', 'BOLETO', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (438, 5, '25/08/2017', 'CREDITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (439, 27, '12/05/2019', 'CREDITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (440, 26, '11/01/2017', 'TRANFERENCIA', 5, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (440, 26, '11/01/2017', 'TRANSFERENCIA', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (441, 45, '09/04/2019', 'CREDITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (442, 6, '13/11/2017', 'CREDITO', 7, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (443, 14, '17/11/2017', 'TRANFERENCIA', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (443, 14, '17/11/2017', 'TRANSFERENCIA', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (444, 10, '18/11/2017', 'CREDITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (445, 11, '14/08/2018', 'CREDITO', 7, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (446, 39, '10/11/2017', 'TRANFERENCIA', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (446, 39, '10/11/2017', 'TRANSFERENCIA', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (447, 47, '23/10/2017', 'CREDITO', 9, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (448, 46, '15/09/2017', 'TRANFERENCIA', 2, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (448, 46, '15/09/2017', 'TRANSFERENCIA', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (449, 46, '24/10/2018', 'DEBITO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (450, 42, '06/02/2017', 'CREDITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (451, 12, '05/05/2019', 'CREDITO', 3, 'AG');
@@ -1486,7 +1529,7 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (453, 15, '28/10/2018', 'CREDITO', 3, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (454, 3, '06/06/2017', 'DEBITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (455, 12, '19/01/2019', 'CREDITO', 2, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (456, 35, '13/01/2019', 'TRANFERENCIA', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (456, 35, '13/01/2019', 'TRANSFERENCIA', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (457, 5, '29/03/2017', 'DEBITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (458, 39, '01/11/2018', 'CREDITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (459, 47, '21/11/2018', 'CREDITO', 1, 'AG');
@@ -1508,12 +1551,12 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (475, 19, '18/03/2018', 'BOLETO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (476, 42, '08/02/2018', 'BOLETO', 5, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (477, 27, '10/12/2017', 'CREDITO', 8, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (478, 45, '02/03/2019', 'TRANFERENCIA', 6, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (478, 45, '02/03/2019', 'TRANSFERENCIA', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (479, 12, '05/05/2018', 'CREDITO', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (480, 4, '06/03/2017', 'DEBITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (481, 18, '14/07/2018', 'CREDITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (482, 46, '09/07/2017', 'CREDITO', 10, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (483, 32, '17/12/2017', 'TRANFERENCIA', 4, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (483, 32, '17/12/2017', 'TRANSFERENCIA', 4, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (484, 6, '20/05/2017', 'BOLETO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (485, 37, '13/10/2017', 'DEBITO', 2, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (486, 15, '30/06/2017', 'CREDITO', 4, 'AG');
@@ -1522,23 +1565,23 @@ insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELA
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (489, 26, '15/12/2017', 'CREDITO', 7, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (490, 42, '26/01/2018', 'CREDITO', 6, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (491, 26, '16/05/2019', 'CREDITO', 6, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (492, 1, '13/03/2018', 'TRANFERENCIA', 9, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (492, 1, '13/03/2018', 'TRANSFERENCIA', 9, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (493, 20, '13/03/2019', 'DEBITO', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (494, 16, '21/10/2018', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (495, 45, '21/08/2018', 'CREDITO', 1, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (496, 41, '24/01/2019', 'CREDITO', 9, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (497, 23, '14/03/2017', 'TRANFERENCIA', 8, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (497, 23, '14/03/2017', 'TRANSFERENCIA', 8, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (498, 35, '13/04/2018', 'DEBITO', 10, 'AG');
 insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (499, 12, '12/03/2017', 'CREDITO', 10, 'AG');
-insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (500, 4, '31/05/2017', 'TRANFERENCIA', 1, 'AG');
+insert into compra (COM_CODIGO, USU_CODIGO, COM_DATA, COM_FORMAPGTO, COM_PARCELAS, COM_STATUS) values (500, 4, '31/05/2017', 'TRANSFERENCIA', 1, 'AG');
 
+/*ItemCompra*/
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (16, 101, 3, 95.77);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (16, 118, 4, 180.05);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (14, 459, 4, 383.39);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (18, 232, 4, 378.08);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (14, 262, 1, 462.38);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (22, 226, 2, 298.72);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (10, 232, 1, 323.65);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (19, 467, 1, 165.71);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (6, 162, 5, 204.67);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (2, 375, 3, 268.85);
@@ -1556,7 +1599,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (3, 238, 3, 299.81);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (7, 478, 1, 230.19);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (3, 434, 5, 471.02);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (29, 5, 4, 372.94);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (19, 351, 3, 314.92);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (22, 317, 3, 103.66);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (24, 222, 3, 84.14);
@@ -1593,7 +1635,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (29, 312, 3, 432.20);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (17, 303, 3, 258.09);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (15, 401, 2, 183.46);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (8, 260, 1, 393.50);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (20, 267, 2, 345.22);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (25, 253, 4, 299.16);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (7, 123, 5, 127.52);
@@ -1647,7 +1688,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (14, 336, 3, 432.67);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (10, 434, 3, 60.15);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (6, 428, 4, 107.67);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (27, 460, 5, 92.39);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (8, 204, 5, 96.58);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (9, 303, 1, 329.15);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (21, 465, 4, 153.01);
@@ -1792,7 +1832,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (5, 166, 2, 136.22);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (18, 230, 1, 136.96);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (2, 285, 3, 54.65);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (16, 127, 1, 422.73);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (26, 298, 4, 201.19);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (19, 26, 2, 203.12);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (18, 298, 5, 64.20);
@@ -1830,7 +1869,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (4, 273, 2, 311.76);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (15, 395, 5, 237.56);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (21, 345, 5, 332.56);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (25, 47, 5, 190.27);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (22, 440, 4, 213.11);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (11, 151, 1, 288.83);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (20, 121, 5, 53.26);
@@ -1872,7 +1910,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (10, 493, 4, 322.78);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (21, 100, 4, 474.44);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (14, 443, 1, 103.36);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (9, 249, 2, 67.68);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (9, 70, 5, 455.21);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (14, 135, 2, 187.09);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (8, 293, 3, 140.81);
@@ -1884,7 +1921,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (4, 122, 3, 249.59);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (1, 179, 4, 315.42);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (12, 396, 5, 279.62);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (9, 249, 2, 56.94);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (26, 351, 1, 173.11);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (4, 355, 4, 80.45);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (1, 425, 5, 95.48);
@@ -1970,7 +2006,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (20, 49, 5, 371.37);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (11, 367, 2, 254.47);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (26, 483, 4, 187.00);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (28, 29, 5, 270.28);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (10, 380, 1, 192.01);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (30, 459, 2, 350.86);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (16, 391, 2, 126.80);
@@ -1996,7 +2031,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (6, 344, 1, 93.57);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (20, 464, 5, 399.84);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (12, 252, 2, 74.84);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (28, 186, 4, 488.74);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (20, 377, 1, 450.43);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (22, 85, 1, 258.74);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (6, 460, 5, 466.41);
@@ -2018,20 +2052,17 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (11, 233, 2, 313.30);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (21, 415, 4, 249.75);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (18, 282, 3, 341.28);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (22, 366, 4, 280.57);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (3, 469, 5, 148.39);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (5, 20, 2, 167.10);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (4, 419, 5, 236.79);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (11, 330, 2, 333.01);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (29, 393, 5, 248.25);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (21, 353, 4, 54.28);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (30, 153, 2, 356.20);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (24, 82, 5, 189.63);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (21, 269, 2, 167.04);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (10, 426, 1, 346.00);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (8, 25, 5, 294.52);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (21, 353, 2, 206.57);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (2, 383, 5, 116.92);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (25, 383, 4, 308.21);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (24, 359, 5, 135.27);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (3, 47, 2, 369.59);
@@ -2052,7 +2083,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (2, 105, 4, 78.02);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (24, 476, 2, 432.55);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (11, 48, 2, 74.59);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (12, 317, 3, 262.57);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (15, 201, 4, 234.75);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (25, 49, 1, 178.45);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (11, 168, 5, 101.06);
@@ -2127,7 +2157,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (26, 359, 3, 171.58);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (30, 431, 4, 186.46);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (10, 317, 1, 188.94);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (5, 289, 2, 437.70);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (8, 238, 3, 200.34);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (10, 375, 1, 401.97);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (17, 269, 5, 124.90);
@@ -2146,7 +2175,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (8, 362, 5, 249.81);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (6, 40, 5, 225.94);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (14, 401, 2, 137.74);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (5, 436, 5, 300.51);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (14, 305, 1, 113.23);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (22, 492, 3, 496.66);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (22, 365, 5, 387.53);
@@ -2201,7 +2229,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (27, 1, 5, 438.76);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (8, 84, 2, 141.17);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (12, 317, 3, 182.58);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (2, 378, 4, 192.42);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (6, 38, 5, 332.24);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (11, 265, 5, 94.76);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (19, 85, 5, 265.97);
@@ -2227,7 +2254,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (30, 107, 4, 308.57);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (23, 429, 3, 132.44);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (11, 154, 4, 267.11);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (5, 76, 2, 226.38);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (8, 34, 1, 100.69);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (22, 166, 5, 185.56);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (18, 147, 2, 186.10);
@@ -2258,7 +2284,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (9, 309, 2, 198.02);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (10, 418, 5, 444.90);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (17, 304, 4, 303.51);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (12, 313, 5, 451.45);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (20, 123, 4, 340.12);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (1, 446, 5, 351.04);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (12, 44, 5, 404.99);
@@ -2302,7 +2327,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (12, 486, 5, 226.59);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (10, 151, 2, 147.26);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (25, 365, 3, 53.48);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (22, 2, 3, 90.62);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (16, 124, 4, 67.78);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (11, 288, 5, 114.85);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (13, 245, 4, 261.78);
@@ -2390,11 +2414,8 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (8, 117, 4, 439.01);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (19, 115, 2, 334.82);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (15, 31, 3, 254.89);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (12, 417, 1, 361.10);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (15, 459, 1, 332.43);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (27, 118, 2, 167.48);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (19, 95, 4, 76.42);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (22, 237, 2, 117.11);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (14, 385, 1, 305.93);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (8, 1, 2, 158.91);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (6, 450, 2, 430.69);
@@ -2404,10 +2425,8 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (21, 123, 4, 161.36);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (17, 25, 5, 257.81);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (17, 290, 1, 416.74);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (21, 100, 3, 316.60);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (30, 76, 3, 410.58);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (1, 282, 2, 260.05);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (21, 293, 1, 115.42);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (12, 306, 3, 267.62);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (9, 128, 2, 74.95);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (11, 266, 2, 144.35);
@@ -2423,7 +2442,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (19, 50, 1, 443.99);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (4, 249, 5, 477.54);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (12, 37, 1, 167.84);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (30, 464, 4, 465.20);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (1, 233, 3, 332.02);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (29, 126, 1, 253.55);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (12, 147, 3, 355.57);
@@ -2470,7 +2488,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (5, 492, 5, 167.17);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (22, 11, 5, 358.58);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (11, 22, 3, 234.58);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (5, 298, 3, 200.57);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (8, 301, 3, 194.95);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (17, 10, 3, 150.03);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (14, 386, 1, 145.32);
@@ -2479,18 +2496,14 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (29, 64, 3, 347.79);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (30, 33, 1, 453.42);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (5, 433, 4, 249.81);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (1, 453, 4, 124.68);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (29, 321, 5, 212.57);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (11, 298, 4, 121.79);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (25, 448, 4, 165.22);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (13, 425, 1, 102.74);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (24, 228, 3, 140.19);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (24, 419, 4, 276.19);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (2, 340, 1, 492.63);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (24, 168, 2, 75.22);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (11, 204, 4, 427.15);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (1, 395, 3, 227.35);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (1, 468, 1, 258.92);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (25, 339, 2, 427.89);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (18, 155, 4, 382.17);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (2, 61, 1, 124.18);
@@ -2498,7 +2511,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (9, 401, 2, 463.27);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (4, 24, 4, 370.61);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (19, 31, 1, 97.34);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (20, 289, 3, 410.84);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (15, 160, 1, 441.93);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (20, 32, 1, 252.75);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (4, 271, 1, 121.91);
@@ -2515,7 +2527,6 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (29, 358, 2, 416.30);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (16, 238, 2, 151.82);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (30, 390, 3, 51.70);
-insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (22, 382, 5, 63.02);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (28, 89, 4, 187.84);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (25, 411, 3, 222.10);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (23, 42, 2, 53.14);
@@ -2533,29 +2544,219 @@ insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (2, 433, 5, 341.93);
 insert into itemcompra (CUR_CODIGO, COM_CODIGO, ITC_AVALIACAO, ITC_VALOR) values (25, 129, 3, 215.98);
 
-CREATE TABLE parcelas(
-    par_codigo NUMBER(5),
-    com_codigo NUMBER(5),
-    par_valor NUMBER(10,2) NOT NULL,
-    par_status CHAR(2) NOT NULL,
-    
-    CONSTRAINT pk_par_codigo PRIMARY KEY(par_codigo, com_codigo),/*Coloquei parcelas com chave composta*/
-    CONSTRAINT fk_par_com_codigo FOREIGN KEY(com_codigo) REFERENCES compra(com_codigo),
-    CONSTRAINT ck_par_status CHECK(par_status in('AG','PG'))
-);
+/*Parcelas*/
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (1, 400, 411.3, '23/08/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (2, 209, 132.1, '12/04/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (3, 377, 303.5, '24/04/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (4, 113, 89.93, '01/10/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (5, 231, 394.4, '11/08/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (6, 298, 283.2, '11/03/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (7, 325, 133.6, '13/06/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (8, 129, 392.7, '15/06/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (9, 122, 467.7, '29/04/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (10, 212, 453.9, '16/10/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (11, 315, 117.7, '12/12/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (12, 348, 375.0, '29/07/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (13, 127, 295.4, '28/01/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (14, 304, 364.4, '02/03/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (15, 347, 120.1, '05/07/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (16, 293, 409.1, '22/04/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (17, 215, 80.51, '15/07/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (18, 22, 130.8, '29/09/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (19, 77, 342.8, '24/02/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (20, 195, 395.1, '14/07/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (21, 369, 251.1, '03/05/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (22, 209, 252.1, '09/11/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (23, 361, 103.1, '11/01/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (24, 349, 196.3, '24/03/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (25, 281, 304.9, '11/08/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (26, 370, 56.05, '14/07/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (27, 266, 394.2, '07/04/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (28, 2, 378.2, '26/12/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (29, 203, 115.8, '10/08/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (30, 303, 87.97, '17/02/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (31, 359, 234.8, '17/04/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (32, 116, 333.7, '07/04/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (33, 376, 76.39, '18/02/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (34, 368, 251.9, '07/08/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (35, 340, 50.94, '14/02/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (36, 302, 124.1, '13/04/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (37, 257, 402.1, '30/12/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (38, 108, 431.8, '10/05/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (39, 345, 281.3, '17/12/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (40, 184, 263.2, '15/10/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (41, 91, 159.5, '29/05/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (42, 279, 166.8, '15/01/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (43, 247, 483.4, '15/01/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (44, 36, 237.0, '17/01/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (45, 35, 134.6, '03/10/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (46, 10, 56.17, '29/05/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (47, 5, 189.8, '09/01/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (48, 357, 54.51, '20/12/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (49, 121, 87.97, '16/12/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (50, 107, 71.77, '28/07/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (51, 248, 245.6, '16/05/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (52, 215, 127.3, '02/02/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (53, 384, 264.1, '19/12/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (54, 86, 58.16, '24/10/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (55, 81, 246.6, '08/08/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (56, 307, 139.2, '10/04/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (57, 16, 297.1, '24/01/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (58, 109, 397.3, '11/04/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (59, 40, 273.2, '17/03/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (60, 330, 109.1, '14/12/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (61, 304, 110.5, '09/04/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (62, 119, 290.7, '26/03/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (63, 181, 368.9, '06/05/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (64, 122, 313.0, '14/12/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (65, 340, 366.4, '16/02/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (66, 166, 288.7, '28/12/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (67, 363, 72.03, '13/07/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (68, 179, 424.7, '19/10/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (69, 322, 350.8, '03/09/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (70, 191, 245.0, '26/06/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (71, 347, 387.0, '07/03/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (72, 190, 499.6, '21/12/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (73, 268, 180.2, '04/11/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (74, 296, 91.39, '24/05/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (75, 285, 490.5, '25/10/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (76, 302, 304.6, '12/02/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (77, 186, 277.1, '30/03/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (78, 115, 245.5, '14/03/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (79, 140, 455.9, '18/04/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (80, 318, 204.9, '20/01/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (81, 221, 378.1, '22/03/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (82, 39, 105.6, '25/10/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (83, 278, 78.42, '29/10/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (84, 240, 158.9, '14/11/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (85, 3, 168.4, '24/02/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (86, 314, 63.13, '10/04/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (87, 262, 479.1, '09/01/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (88, 400, 359.4, '10/05/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (89, 231, 496.3, '26/09/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (90, 112, 434.4, '04/07/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (91, 265, 257.5, '23/08/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (92, 103, 218.7, '27/03/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (93, 206, 360.1, '11/05/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (94, 76, 83.50, '15/02/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (95, 89, 148.4, '17/05/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (96, 21, 393.2, '21/08/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (97, 167, 467.0, '12/01/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (98, 60, 441.7, '06/01/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (99, 380, 184.9, '10/05/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (100, 282, 200.8, '19/11/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (101, 22, 328.5, '21/05/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (102, 182, 256.1, '16/05/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (103, 331, 113.8, '28/05/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (104, 297, 418.4, '28/08/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (105, 11, 451.4, '30/03/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (106, 335, 418.7, '01/12/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (107, 291, 370.0, '05/09/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (108, 79, 121.8, '25/05/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (109, 306, 296.5, '24/09/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (110, 350, 328.6, '29/01/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (111, 51, 323.7, '18/11/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (112, 35, 126.4, '26/10/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (113, 288, 368.2, '22/06/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (114, 104, 113.9, '26/04/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (115, 270, 66.86, '14/05/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (116, 181, 442.6, '18/01/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (117, 30, 60.86, '12/05/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (118, 147, 453.8, '10/04/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (119, 318, 174.6, '27/12/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (120, 131, 175.3, '25/11/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (121, 201, 163.2, '30/09/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (122, 150, 266.0, '08/07/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (123, 282, 276.2, '21/09/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (124, 145, 132.9, '04/10/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (125, 94, 380.9, '22/06/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (126, 308, 361.6, '28/04/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (127, 237, 492.1, '28/02/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (128, 130, 72.41, '25/03/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (129, 143, 411.4, '05/01/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (130, 389, 461.5, '10/05/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (131, 399, 169.9, '19/04/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (132, 331, 395.0, '18/02/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (133, 293, 173.4, '11/12/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (134, 248, 141.4, '26/02/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (135, 11, 111.3, '16/08/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (136, 182, 330.4, '18/07/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (137, 120, 451.9, '14/02/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (138, 321, 67.22, '04/07/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (139, 388, 395.5, '07/04/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (140, 43, 390.7, '24/02/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (141, 129, 251.6, '22/05/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (142, 140, 162.0, '15/01/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (143, 226, 395.8, '16/09/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (144, 37, 166.3, '26/05/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (145, 169, 203.2, '13/01/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (146, 266, 144.4, '22/08/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (147, 217, 417.5, '26/02/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (148, 344, 56.51, '08/08/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (149, 394, 486.2, '15/02/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (150, 81, 405.7, '28/01/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (151, 94, 405.5, '02/12/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (152, 148, 239.0, '12/03/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (153, 248, 121.2, '29/07/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (154, 338, 367.3, '15/04/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (155, 243, 411.1, '20/06/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (156, 396, 478.3, '03/01/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (157, 46, 421.5, '04/05/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (158, 14, 133.0, '01/12/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (159, 323, 379.2, '02/11/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (160, 240, 413.0, '25/06/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (161, 307, 436.2, '24/02/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (162, 57, 295.2, '05/11/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (163, 19, 362.6, '17/08/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (164, 373, 151.8, '03/01/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (165, 349, 340.2, '20/06/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (166, 267, 417.5, '01/04/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (167, 39, 167.7, '03/11/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (168, 238, 236.5, '24/02/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (169, 232, 249.0, '15/12/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (170, 376, 171.3, '25/07/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (171, 74, 231.6, '16/04/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (172, 209, 416.5, '06/02/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (173, 274, 127.1, '20/08/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (174, 231, 441.0, '16/07/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (175, 169, 265.0, '07/01/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (176, 178, 327.7, '05/05/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (177, 116, 270.2, '28/12/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (178, 372, 469.7, '23/05/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (179, 92, 276.1, '31/07/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (180, 2, 213.2, '20/07/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (181, 315, 445.2, '27/01/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (182, 294, 142.4, '05/06/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (183, 345, 471.6, '25/05/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (184, 133, 394.4, '12/03/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (185, 46, 362.5, '21/04/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (186, 151, 492.2, '16/03/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (187, 210, 190.6, '22/04/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (188, 81, 407.7, '04/02/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (189, 132, 211.0, '02/04/2019', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (190, 167, 424.8, '18/11/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (191, 54, 307.6, '13/10/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (192, 209, 144.7, '11/12/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (193, 61, 284.1, '12/08/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (194, 255, 441.8, '06/03/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (195, 335, 405.9, '08/06/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (196, 202, 356.0, '16/10/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (197, 170, 110.5, '24/08/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (198, 168, 231.4, '03/07/2017', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (199, 114, 186.7, '09/03/2018', 'AG');
+insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) values (200, 141, 286.3, '29/01/2019', 'AG');
 
-insert into parcelas(par_codigo, com_codigo, par_valor, par_status) 
-values(1,1,280,'AG');
-insert into parcelas(par_codigo, com_codigo, par_valor, par_status) 
-values(1,2,220,'AG');
-insert into parcelas(par_codigo, com_codigo, par_valor, par_status) 
-values(1,3,200,'AG');
-insert into parcelas(par_codigo, com_codigo, par_valor, par_status) 
-values(1,4,290,'AG');
-insert into parcelas(par_codigo, com_codigo, par_valor, par_status) 
-values(1,5,220,'AG');
-insert into parcelas(par_codigo, com_codigo, par_valor, par_status) 
-values(2,5,220,'AG');
+
+
+
+
+
+
+
+
+
+
+
 
 /*CONSULTAS*/
 
@@ -2579,12 +2780,19 @@ ORDER BY vw.cur_avaliacao DESC;
 /*
 2) Listar, em ordem crescente, o código, o nome e a avaliação média de todos os cursos cuja avaliação está abaixo da média geral;
 */
+CREATE OR REPLACE VIEW vw_avaliacaocurso AS
+SELECT cur_codigo, ROUND(AVG(itc_avaliacao),1) AS cur_avaliacao
+FROM itemcompra
+GROUP BY cur_codigo
+ORDER BY cur_avaliacao DESC
+WITH READ ONLY;
+
 SELECT cur.cur_codigo, cur.cur_titulo, vw.cur_avaliacao
 FROM curso cur 
 INNER JOIN vw_avaliacaocurso vw
 ON cur.cur_codigo = vw.cur_codigo
 WHERE vw.cur_avaliacao < (SELECT AVG(cur_avaliacao) FROM vw_avaliacaocurso)
-ORDER BY vw.cur_avaliacao;
+ORDER BY vw.cur_avaliacao ASC;
 
 /*
 3) Listar, em ordem decrescente, o código, o nome e a quantidade de vendas dos 10 cursos mais vendidos;
@@ -2628,46 +2836,181 @@ GROUP BY CASE WHEN EXTRACT(MONTH FROM com.com_data) in (1,2,3) THEN 'Primeiro'
                 EXTRACT(YEAR FROM com.com_data);
 
 /*
-5) Listar as formas de pagamento, a quantidade de compras que utilizaram elas para pagamento e a receita que cada forma de pagamento gerou;
+4) Listar o valor obtido com a venda de cursos, por semestre, nos ultimos 3 anos, cuja forma de pagamento utilizada foi cartão de crédito e a quantidade de parcelas foi maior que 1;
 */
+SELECT CASE WHEN EXTRACT(MONTH FROM com.com_data) in (1,2,3,4,5,6) THEN 'Primeiro'
+            WHEN EXTRACT(MONTH FROM com.com_data) in (7,8,9,10,11,12) THEN 'Segundo'           
+       END AS com_semestre, 
+       EXTRACT(YEAR FROM com.com_data) as com_ano, 
+       SUM(CASE WHEN EXTRACT(MONTH FROM com.com_data) in (1,2,3,4,5,6) THEN itc.itc_valor 
+                WHEN EXTRACT(MONTH FROM com.com_data) in (7,8,9,10,11,12) THEN itc.itc_valor
+           END) as com_total
+FROM compra com 
+INNER JOIN itemcompra itc
+ON com.com_codigo = itc.com_codigo 
+WHERE EXTRACT(YEAR FROM com.com_data) in (2019,2018,2017) AND com.com_formapgto = 'CREDITO' AND com.com_parcelas > 1
+GROUP BY CASE WHEN EXTRACT(MONTH FROM com.com_data) in (1,2,3,4,5,6) THEN 'Primeiro' 
+                WHEN EXTRACT(MONTH FROM com.com_data) in (7,8,9,10,11,12) THEN 'Segundo' END, 
+                EXTRACT(YEAR FROM com.com_data);
 
 /*
-6) Listar o código, o nome e a quantidade de cursos comprados, em ordem decrescente, dos 10 alunos que mais compraram cursos no ano de 2019;
+6) Listar, em ordem decrescente, as formas de pagamento, a quantidade de compras que utilizaram elas para pagamento e a receita que cada uma gerou;
 */
+SELECT com.com_formapgto, COUNT(com.com_formapgto), SUM(itc.itc_valor)
+FROM itemcompra itc
+INNER JOIN compra com
+ON com.com_codigo = itc.com_codigo 
+GROUP BY com.com_formapgto, com.com_formapgto, itc.itc_valor
+ORDER BY itc.itc_valor DESC;
+
+/* 
+7) Listar, em ordem decrescente, o código, o nome, a quantidade de cursos comprados e o valor gasto com a compra desses cursos, dos alunos que mais
+compraram cursos no ano de 2019; 
+*/ 
+CREATE OR REPLACE VIEW vw_alunoqtdcurso AS
+SELECT usu_codigo, COUNT(com_codigo) AS com_qtdcursos 
+FROM compra 
+GROUP BY usu_codigo 
+ORDER BY COUNT(com_codigo) DESC 
+WITH READ ONLY;
+
+SELECT vw.usu_codigo, usu.usu_nome, vw.com_qtdcursos, SUM(itc.itc_valor)
+FROM vw_alunoqtdcurso vw
+INNER JOIN usuario usu
+ON vw.usu_codigo = usu.usu_codigo
+INNER JOIN compra com
+ON usu.usu_codigo = com.usu_codigo
+INNER JOIN itemcompra itc 
+ON com.com_codigo = itc.com_codigo 
+WHERE EXTRACT(YEAR FROM com.com_data) = 2019
+GROUP BY vw.usu_codigo, usu.usu_nome, vw.com_qtdcursos
+ORDER BY SUM(itc.itc_valor) DESC;
 
 /*
-7) Listar o código e o nome de todos os alunos, as 3 categorias de cursos mais comprados e a quantidade de cursos de cada categoria que eles compraram;
+8) Listar, em ordem decrescente, o código, o nome e a quantidade de cursos vendidos pelos instrutores;
 */
+SELECT ins.usu_codigo, usu.usu_nome, vw.cur_qtdvendas
+FROM vw_vendacurso vw
+INNER JOIN curso cur
+ON vw.cur_codigo = cur.cur_codigo
+INNER JOIN instrutorcurso inc
+ON cur.cur_codigo = inc.cur_codigo
+INNER JOIN instrutor ins
+ON inc.usu_codigo = ins.usu_codigo
+INNER JOIN usuario usu
+ON ins.usu_codigo = usu.usu_codigo
+GROUP BY ins.usu_codigo, usu.usu_nome, vw.cur_qtdvendas
+ORDER BY cur_qtdvendas DESC;
 
 /*
-8) Listar, em ordem decrescente, o código, o nome e a quantidade de cursos vendidos dos 10 instrutores que mais venderam cursos no ano de 2019;
+9) Listar, em ordem decrescente, o código, o nome e a receita total obtida, por instrutor, com a venda de cursos;
 */
+CREATE OR REPLACE VIEW vw_vendacurso AS
+SELECT cur_codigo, COUNT(cur_codigo) AS cur_qtdvendas, SUM(itc_valor) AS cur_receita
+FROM itemcompra
+GROUP BY cur_codigo
+ORDER BY cur_receita DESC
+WITH READ ONLY;
+
+SELECT ins.usu_codigo, usu.usu_nome, vw.cur_receita
+FROM vw_vendacurso vw
+INNER JOIN curso cur
+ON vw.cur_codigo = cur.cur_codigo
+INNER JOIN instrutorcurso inc
+ON cur.cur_codigo = inc.cur_codigo
+INNER JOIN instrutor ins
+ON inc.usu_codigo = ins.usu_codigo
+INNER JOIN usuario usu
+ON ins.usu_codigo = usu.usu_codigo
+GROUP BY ins.usu_codigo, usu.usu_nome, vw.cur_receita
+ORDER BY cur_receita DESC;
 
 /*
-9) Listar a receita total obtida, por instrutor, com a venda de cursos no ano de 2019;
+10) Listar, em ordem crescente, o código, o nome e a média de vendas de todos os instrutores que venderam menos do que a média geral;
 */
+SELECT ins.usu_codigo, usu.usu_nome, AVG(vw.cur_qtdvendas) 
+FROM vw_vendacurso vw
+INNER JOIN curso cur
+ON vw.cur_codigo = cur.cur_codigo
+INNER JOIN instrutorcurso inc
+ON cur.cur_codigo = inc.cur_codigo
+INNER JOIN instrutor ins
+ON inc.usu_codigo = ins.usu_codigo
+INNER JOIN usuario usu
+ON ins.usu_codigo = usu.usu_codigo
+GROUP BY ins.usu_codigo, usu.usu_nome
+HAVING AVG(vw.cur_qtdvendas) < (SELECT AVG(cur_qtdvendas) FROM vw_vendacurso)
+ORDER BY AVG(vw.cur_qtdvendas) ASC;
 
 /*
-10) Listar o código e o nome de todos os instrutores que venderam menos do que a média geral no ano de 2019;
+11) Listar, em ordem crescente, o código, o nome e a média de avaliação de todos os instrutores cuja média de avaliação seja menor que a média geral;
 */
+SELECT ins.usu_codigo, usu.usu_nome, AVG(vw.cur_avaliacao) 
+FROM vw_avaliacaocurso vw
+INNER JOIN curso cur
+ON vw.cur_codigo = cur.cur_codigo
+INNER JOIN instrutorcurso inc
+ON cur.cur_codigo = inc.cur_codigo
+INNER JOIN instrutor ins
+ON inc.usu_codigo = ins.usu_codigo
+INNER JOIN usuario usu
+ON ins.usu_codigo = usu.usu_codigo
+GROUP BY ins.usu_codigo, usu.usu_nome
+HAVING AVG(vw.cur_avaliacao) < (SELECT AVG(cur_avaliacao) FROM vw_avaliacaocurso)
+ORDER BY AVG(vw.cur_avaliacao)  ASC;
 
 /*
-11) Listar de todos os instrutores;
+12) Listar, em ordem decrescente, o código e o nome de todos os instrutores, e a quantidade de categorias de cursos que eles mais ministraram aulas
 */
+SELECT inc.usu_codigo, usu.usu_nome, COUNT(cat.cat_codigo)
+FROM usuario usu
+INNER JOIN instrutorcurso inc
+ON usu.usu_codigo = inc.usu_codigo
+INNER JOIN curso cur
+ON inc.cur_codigo = cur.cur_codigo
+INNER JOIN categoria cat
+ON cur.cat_codigo = cat.cat_codigo 
+GROUP BY inc.usu_codigo, usu.usu_nome
+ORDER BY COUNT(cat.cat_codigo) DESC;
 
 /*
-12) Listar o código, o nome e a média de avaliação de todos os instrutores cuja média de avaliação seja menor que a média geral;
+13) Listar, em ordem decrescente, o código, o nome, e a quantidade de aulas dos cursos; 
 */
+SELECT cur.cur_codigo, cur.cur_titulo, COUNT(aul.aul_codigo) AS cur_qtdaulas
+FROM curso cur
+INNER JOIN modulo mod
+ON cur.cur_codigo = mod.cur_codigo
+INNER JOIN aula aul
+ON mod.mod_codigo = aul.mod_codigo
+GROUP BY cur.cur_codigo, cur.cur_titulo
+ORDER BY cur_qtdaulas DESC;
 
 /*
-13) Listar o código e o nome de todos os instrutores, a categoria de cursos que eles mais ministraram aulas e a quantidade de cursos ministrados dessa categoria;
+14) Listar, em ordem decrescente, o código e o nome da categoria e a quantidade de cursos que ela possui;
 */
+SELECT cat.cat_codigo, cat.cat_nome, COUNT(cur.cat_codigo)
+FROM categoria cat
+INNER JOIN curso cur
+ON cat.cat_codigo = cur.cat_codigo
+GROUP BY cat.cat_codigo, cat.cat_nome
+ORDER BY COUNT(cur.cat_codigo) DESC;
 
 /*
-14) Listar o código e o nome dos 10 instrutores que mais disponibilizaram anexos em suas aulas;
+15) Listar, em ordem decrescente, o código, o nome e a quantidade de anexos disponibilizados pelos instrutores;
 */
-
-/*
-15) Listar o código e o nome do instrutor e a quantidade de cursos vendidos cuja forma de pagamento utilizada foi cartão de crédito.
-*/
-
+SELECT ins.usu_codigo, usu.usu_nome, cur.cur_codigo, COUNT(ane.aul_codigo)
+FROM usuario usu
+INNER JOIN instrutor ins
+ON ins.usu_codigo = usu.usu_codigo
+INNER JOIN instrutorcurso inc
+ON ins.usu_codigo = inc.usu_codigo
+INNER JOIN curso cur
+ON inc.cur_codigo = cur.cur_codigo
+INNER JOIN modulo mod
+ON cur.cur_codigo = mod.cur_codigo
+INNER JOIN aula aul
+ON mod.mod_codigo = aul.mod_codigo
+INNER JOIN anexo ane
+ON aul.aul_codigo = ane.aul_codigo 
+GROUP BY ins.usu_codigo, usu.usu_nome, cur.cur_codigo
+ORDER BY COUNT(ane.aul_codigo);
