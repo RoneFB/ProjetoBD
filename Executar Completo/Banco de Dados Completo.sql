@@ -167,7 +167,7 @@ CREATE TABLE compra(
     
     CONSTRAINT pk_com_codigo PRIMARY KEY(com_codigo),
     CONSTRAINT fk_com_usu_codigo FOREIGN KEY(usu_codigo) REFERENCES aluno(usu_codigo),
-    CONSTRAINT ck_com_status CHECK(com_status in('AG','PG')),
+    CONSTRAINT ck_com_status CHECK(com_status in('AG','PG','CN')),
     CONSTRAINT ck_com_formapgto CHECK(com_formapgto in('CREDITO','DEBITO','BOLETO','TRANSFERENCIA')),
     CONSTRAINT ck_com_nparcelas CHECK(com_parcelas <= 12));
 
@@ -191,7 +191,7 @@ CREATE TABLE parcelas(
     
     CONSTRAINT pk_par_codigo PRIMARY KEY(par_codigo, com_codigo),/*Coloquei parcelas com chave composta*/
     CONSTRAINT fk_par_com_codigo FOREIGN KEY(com_codigo) REFERENCES compra(com_codigo),
-    CONSTRAINT ck_par_status CHECK(par_status in('AG','PG'))
+    CONSTRAINT ck_par_status CHECK(par_status in('AG','PG','CN'))
 );
 
 
@@ -2756,8 +2756,6 @@ insert into parcelas (par_codigo, com_codigo, par_valor, par_data, par_status) v
 
 
 
-
-
 /*CONSULTAS*/
 
 /*
@@ -2836,7 +2834,7 @@ GROUP BY CASE WHEN EXTRACT(MONTH FROM com.com_data) in (1,2,3) THEN 'Primeiro'
                 EXTRACT(YEAR FROM com.com_data);
 
 /*
-4) Listar o valor obtido com a venda de cursos, por semestre, nos ultimos 3 anos, cuja forma de pagamento utilizada foi cartão de crédito e a quantidade de parcelas foi maior que 1;
+5) Listar o valor obtido com a venda de cursos, por semestre, nos ultimos 3 anos, cuja forma de pagamento utilizada foi cartão de crédito e a quantidade de parcelas foi maior que 1;
 */
 SELECT CASE WHEN EXTRACT(MONTH FROM com.com_data) in (1,2,3,4,5,6) THEN 'Primeiro'
             WHEN EXTRACT(MONTH FROM com.com_data) in (7,8,9,10,11,12) THEN 'Segundo'           
@@ -2851,7 +2849,8 @@ ON com.com_codigo = itc.com_codigo
 WHERE EXTRACT(YEAR FROM com.com_data) in (2019,2018,2017) AND com.com_formapgto = 'CREDITO' AND com.com_parcelas > 1
 GROUP BY CASE WHEN EXTRACT(MONTH FROM com.com_data) in (1,2,3,4,5,6) THEN 'Primeiro' 
                 WHEN EXTRACT(MONTH FROM com.com_data) in (7,8,9,10,11,12) THEN 'Segundo' END, 
-                EXTRACT(YEAR FROM com.com_data);
+                EXTRACT(YEAR FROM com.com_data)
+                ORDER BY EXTRACT(YEAR FROM com.com_data) DESC;
 
 /*
 6) Listar, em ordem decrescente, as formas de pagamento, a quantidade de compras que utilizaram elas para pagamento e a receita que cada uma gerou;
@@ -2860,12 +2859,11 @@ SELECT com.com_formapgto, COUNT(com.com_formapgto), SUM(itc.itc_valor)
 FROM itemcompra itc
 INNER JOIN compra com
 ON com.com_codigo = itc.com_codigo 
-GROUP BY com.com_formapgto, com.com_formapgto, itc.itc_valor
-ORDER BY itc.itc_valor DESC;
+GROUP BY com.com_formapgto
+ORDER BY SUM(itc.itc_valor);
 
 /* 
-7) Listar, em ordem decrescente, o código, o nome, a quantidade de cursos comprados e o valor gasto com a compra desses cursos, dos alunos que mais
-compraram cursos no ano de 2019; 
+7) Listar, em ordem decrescente, o código, o nome, a quantidade de cursos comprados e o valor gasto com a compra desses cursos, dos alunos no ano de 2019; 
 */ 
 CREATE OR REPLACE VIEW vw_alunoqtdcurso AS
 SELECT usu_codigo, COUNT(com_codigo) AS com_qtdcursos 
@@ -2928,7 +2926,7 @@ ORDER BY cur_receita DESC;
 /*
 10) Listar, em ordem crescente, o código, o nome e a média de vendas de todos os instrutores que venderam menos do que a média geral;
 */
-SELECT ins.usu_codigo, usu.usu_nome, AVG(vw.cur_qtdvendas) 
+SELECT ins.usu_codigo, usu.usu_nome, ROUND(AVG(vw.cur_qtdvendas),0) 
 FROM vw_vendacurso vw
 INNER JOIN curso cur
 ON vw.cur_codigo = cur.cur_codigo
@@ -2945,7 +2943,7 @@ ORDER BY AVG(vw.cur_qtdvendas) ASC;
 /*
 11) Listar, em ordem crescente, o código, o nome e a média de avaliação de todos os instrutores cuja média de avaliação seja menor que a média geral;
 */
-SELECT ins.usu_codigo, usu.usu_nome, AVG(vw.cur_avaliacao) 
+SELECT ins.usu_codigo, usu.usu_nome, ROUND(AVG(vw.cur_avaliacao),1) 
 FROM vw_avaliacaocurso vw
 INNER JOIN curso cur
 ON vw.cur_codigo = cur.cur_codigo
@@ -2960,9 +2958,9 @@ HAVING AVG(vw.cur_avaliacao) < (SELECT AVG(cur_avaliacao) FROM vw_avaliacaocurso
 ORDER BY AVG(vw.cur_avaliacao)  ASC;
 
 /*
-12) Listar, em ordem decrescente, o código e o nome de todos os instrutores, e a quantidade de categorias de cursos que eles mais ministraram aulas
+12) Listar, em ordem alfabética, o código e o nome de todos os instrutores, e a quantidade  de cursos que eles ministraram aulas nas categorias
 */
-SELECT inc.usu_codigo, usu.usu_nome, COUNT(cat.cat_codigo)
+SELECT inc.usu_codigo, usu.usu_nome, cat.cat_nome, COUNT(cat.cat_codigo)
 FROM usuario usu
 INNER JOIN instrutorcurso inc
 ON usu.usu_codigo = inc.usu_codigo
@@ -2970,17 +2968,17 @@ INNER JOIN curso cur
 ON inc.cur_codigo = cur.cur_codigo
 INNER JOIN categoria cat
 ON cur.cat_codigo = cat.cat_codigo 
-GROUP BY inc.usu_codigo, usu.usu_nome
-ORDER BY COUNT(cat.cat_codigo) DESC;
+GROUP BY usu.usu_nome, cat.cat_nome, inc.usu_codigo
+ORDER BY usu.usu_nome;
 
 /*
 13) Listar, em ordem decrescente, o código, o nome, e a quantidade de aulas dos cursos; 
 */
 SELECT cur.cur_codigo, cur.cur_titulo, COUNT(aul.aul_codigo) AS cur_qtdaulas
 FROM curso cur
-INNER JOIN modulo mod
+LEFT JOIN modulo mod
 ON cur.cur_codigo = mod.cur_codigo
-INNER JOIN aula aul
+LEFT JOIN aula aul
 ON mod.mod_codigo = aul.mod_codigo
 GROUP BY cur.cur_codigo, cur.cur_titulo
 ORDER BY cur_qtdaulas DESC;
@@ -3006,11 +3004,29 @@ INNER JOIN instrutorcurso inc
 ON ins.usu_codigo = inc.usu_codigo
 INNER JOIN curso cur
 ON inc.cur_codigo = cur.cur_codigo
-INNER JOIN modulo mod
+LEFT JOIN modulo mod
 ON cur.cur_codigo = mod.cur_codigo
-INNER JOIN aula aul
+LEFT JOIN aula aul
 ON mod.mod_codigo = aul.mod_codigo
-INNER JOIN anexo ane
+LEFT JOIN anexo ane
 ON aul.aul_codigo = ane.aul_codigo 
 GROUP BY ins.usu_codigo, usu.usu_nome, cur.cur_codigo
-ORDER BY COUNT(ane.aul_codigo);
+ORDER BY COUNT(ane.aul_codigo) DESC;
+
+
+/*TRIGGER*/
+
+CREATE OR REPLACE TRIGGER valida_parcelas
+BEFORE UPDATE ON Compra 
+FOR EACH ROW
+BEGIN
+    IF UPDATING THEN
+        IF :OLD.com_status != :NEW.com_status THEN
+            IF :NEW.com_status = 'CN' THEN
+                UPDATE parcelas
+                SET par_status = 'CN'
+                WHERE com_codigo = :OLD.com_codigo;
+            END IF;           
+        END IF;        
+    END IF;    
+END valida_parcelas;
